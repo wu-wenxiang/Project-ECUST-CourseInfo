@@ -17,10 +17,10 @@ def readWorkbook(workbookPath, x=0, index=0):
     '''
 
     workbook = xlrd.open_workbook(filename=workbookPath)
-    sheet = workbook.sheet_by_index(0)
+    sheet = workbook.sheet_by_index(index)
 
     myList = []
-    for row_num in range(0, sheet.nrows):
+    for row_num in range(x, sheet.nrows):
         row = sheet.row(row_num) # row -- [empty:'', empty:'', text:'HZ-616S', number:10000.0]
         v = [r.value for r in row]
         myList.append(v)
@@ -40,10 +40,10 @@ if __name__ == "__main__":
     classroomExcel = os.path.join(BASE_DIR, 'excel', 'classroom.xls')
     workbookList = readWorkbook(classroomExcel)
 
-    items = [Campus(name=j) for j in set([i[4] for i in workbookList])]
+    items = [Campus(name=j) for j in set(i[4] for i in workbookList)]
     Campus.objects.bulk_create(items, batch_size=20)
 
-    items = [ClassroomType(name=j) for j in set([i[3] for i in workbookList])]
+    items = [ClassroomType(name=j) for j in set(i[3] for i in workbookList)]
     ClassroomType.objects.bulk_create(items, batch_size=20)
 
     items = set([(i[4], i[2]) for i in workbookList])
@@ -59,9 +59,14 @@ if __name__ == "__main__":
 
     # Import schedule
     scheduleExcel = os.path.join(BASE_DIR, 'excel', 'schedule.xls')
-    workbookList = readWorkbook(scheduleExcel)
-    items = [Teacher(id=j[0], name=j[1]) for j in set([(i[3],i[4]) for i in workbookList])]
+    workbookList = readWorkbook(scheduleExcel, x=1)
+
+    items = [Teacher(id=j[0], name=j[1]) for j in set((i[3],i[4]) for i in workbookList)]
     Teacher.objects.bulk_create(items, batch_size=20)
+
+    items = [Term(name=j, firstMonday=datetime.datetime.now()) for j in set(i[1] for i in workbookList)]
+    Term.objects.bulk_create(items, batch_size=20)
+
 
     # for i in range(MATERIAL_NUM):
     #     m = Material()
