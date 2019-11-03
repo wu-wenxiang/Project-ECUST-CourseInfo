@@ -5,7 +5,27 @@ import sys
 import django
 import random
 import datetime
+import xlrd
 
+BASE_DIR = os.path.dirname(__file__)
+
+def readWorkbook(workbookPath, x=0, index=0):
+    ''' 电子表格
+        workbookPath: os.path.join(BASE_DIR, 'excel', 'classroom.xls')
+        x: 从x行开始 0,1,2...
+        index: 工作表序号
+    '''
+
+    workbook = xlrd.open_workbook(filename=workbookPath)
+    sheet = workbook.sheet_by_index(0)
+
+    myList = []
+    for row_num in range(0, sheet.nrows):
+        row = sheet.row(row_num) # row -- [empty:'', empty:'', text:'HZ-616S', number:10000.0]
+        v = [r.value for r in row]
+        myList.append(v)
+
+    return myList
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "courseinfo.settings")
@@ -15,6 +35,12 @@ if __name__ == "__main__":
 
     user = User.objects.create_superuser('admin', 'admin@test.com', '56e1E@ab1234')
     user.save()
+
+    # Import classroom
+    classroomExcel = os.path.join(BASE_DIR, 'excel', 'classroom.xls')
+    classroomList = readWorkbook(classroomExcel)
+    campuses = [Campus(name=i) for i in set([i[4] for i in classroomList])]
+    Campus.objects.bulk_create(campuses, batch_size=20)
 
     # for i in range(MATERIAL_NUM):
     #     m = Material()
