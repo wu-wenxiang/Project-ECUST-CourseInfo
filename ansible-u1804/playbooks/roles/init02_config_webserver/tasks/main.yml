@@ -15,3 +15,16 @@
   systemd:
     name: docker
     enabled: yes
+
+- name: Install pip depedences
+  pip:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker
+
+# - name: Pull docker images ubuntu:18.04
+#   docker_image:
+#     state: present
+#     name: ubuntu
+#     tag: "18.04"
