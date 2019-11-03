@@ -20,3 +20,10 @@ python manage.py flush --noinput
 python initdb.py
 
 ```
+
+## Generate static files
+
+```bash
+rm -rf static
+python manage.py collectstatic
+```
