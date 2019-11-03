@@ -4,3 +4,4 @@ monthdelta
 Pillow
 xlrd
 xlsxwriter
+pypinyin
