@@ -5,6 +5,9 @@
 
 .DS_Store
 .vscode
+.project
+.pydevproject
+.settings
 
 # User-specific files
 *.suo
