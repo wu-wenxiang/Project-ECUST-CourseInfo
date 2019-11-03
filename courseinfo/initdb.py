@@ -38,9 +38,30 @@ if __name__ == "__main__":
 
     # Import classroom
     classroomExcel = os.path.join(BASE_DIR, 'excel', 'classroom.xls')
-    classroomList = readWorkbook(classroomExcel)
-    campuses = [Campus(name=i) for i in set([i[4] for i in classroomList])]
-    Campus.objects.bulk_create(campuses, batch_size=20)
+    workbookList = readWorkbook(classroomExcel)
+
+    items = [Campus(name=j) for j in set([i[4] for i in workbookList])]
+    Campus.objects.bulk_create(items, batch_size=20)
+
+    items = [ClassroomType(name=j) for j in set([i[3] for i in workbookList])]
+    ClassroomType.objects.bulk_create(items, batch_size=20)
+
+    items = set([(i[4], i[2]) for i in workbookList])
+    items = [Building(campus=Campus.objects.get(name=k), name=v) for (k,v) in items]
+    Building.objects.bulk_create(items, batch_size=20)
+
+    items = {i[0]:i for i in workbookList}
+    items = [(v, Campus.objects.get(name=v[4])) for (k,v) in items.items()]
+    items = [(i[0], Building.objects.get(campus=i[1], name=i[0][2])) for i in items]
+    items = [(i[0], i[1], ClassroomType.objects.get(name=i[0][3])) for i in items]
+    items = [Classroom(id=i[0][0], name=i[0][1], building=i[1], classroomType=i[2]) for i in items]
+    Classroom.objects.bulk_create(items, batch_size=20)
+
+    # Import schedule
+    scheduleExcel = os.path.join(BASE_DIR, 'excel', 'schedule.xls')
+    workbookList = readWorkbook(scheduleExcel)
+    items = [Teacher(id=j[0], name=j[1]) for j in set([(i[3],i[4]) for i in workbookList])]
+    Teacher.objects.bulk_create(items, batch_size=20)
 
     # for i in range(MATERIAL_NUM):
     #     m = Material()
