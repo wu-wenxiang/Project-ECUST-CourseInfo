@@ -22,7 +22,7 @@ def readWorkbook(workbookPath, x=0, index=0):
     myList = []
     for row_num in range(x, sheet.nrows):
         row = sheet.row(row_num) # row -- [empty:'', empty:'', text:'HZ-616S', number:10000.0]
-        v = [r.value for r in row]
+        v = [r.value.strip() for r in row]
         myList.append(v)
 
     return myList
@@ -67,60 +67,13 @@ if __name__ == "__main__":
     items = [Term(name=j, firstMonday=datetime.datetime.now()) for j in set(i[1] for i in workbookList)]
     Term.objects.bulk_create(items, batch_size=20)
 
-
-    # for i in range(MATERIAL_NUM):
-    #     m = Material()
-    #     m.name = '材料-%s' % i
-    #     m.price = random.randint(100, 200)
-    #     m.save()
-    
-    # for i in range(COMPANY_NUM):
-    #     user = User.objects.create_user('cx%s' % i, 'cx%s@test.com' % i,
-    #                                     '@aB1234')
-    #     user.is_staff = True
-    #     user.is_superuser = False
-    #     user.groups.add(customerGroup)
-    #     user.save()   
-    
-    # cxs = User.objects.filter(groups__name='Customer')
-    # ops = User.objects.filter(groups__name='Operator')
-
-    # for i in range(COMPANY_NUM):
-    #     c = Company()
-    #     c.name = "公司-%s" % i
-    #     if i % 3:
-    #         c.taxNumber = '1234567'
-    #         c.bank = random.choice(['中国银行', '中国工商银行', '中国农业银行',
-    #                                 '中国建设银行', '中国交通银行', '招商银行', '民生银行'])
-    #         c.bankAccount = '1234567890'
-    #     c.address = '丹凤路%s号' % random.randint(1, 2000)
-    #     c.contact = '联系人-%s' % i
-    #     c.username = list(cxs)[i]
-    #     c.telephone = '138' + ''.join([str(random.randint(0,9)) for _i in range(8)])
-    #     c.save()
-    
-    # materials = Material.objects.all()
-    # companies = Company.objects.all()
-    # for i in range(ORDER_NUM):
-    #     o = Order()
-    #     o.company = random.choice(list(companies))
-    #     o.date = datetime.datetime.now()-datetime.timedelta(days=random.randint(1, 500))
-    #     o.content = '内容-%s' % i
-    #     o.quantity = random.randint(1, 5)
-    #     o.taxPercent = (random.choice(Order.ORDER_TAX))[0]
-    #     if i % 4:
-    #         o.type = Order.ORDER_TYPE[0][0]
-    #         o.price = random.randint(10, 100)*50
-    #     else:
-    #         o.type = Order.ORDER_TYPE[1][0]
-    #         o.material = random.choice(list(materials))
-    #         o.sizeWidth = random.randint(1, 5)
-    #         o.sizeHeight = random.randint(1, 5)
-    #     o.author = random.choice(ops)
-    #     o._autoFill()
-    #     o.checkout = random.choice([True, False, False])
-    #     o.save()
-        
-#     permissions = Permission.objects.all()
-#     print [i.name for i in permissions]
-#     print [i for i in permissions]
+    items = {i[0]:i for i in workbookList}
+    items = [(
+        v, Term.objects.get(name=v[1]), Teacher.objects.get(id=v[3]),
+        Classroom.objects.get(id=v[8])) for (k,v) in items.items()]
+    items = [Course(
+        id=i[0][0], term=i[1], name=i[0][2], teacher=i[2], CLASS_TIME=i[0][5],
+        START_TIME=i[0][6], classroom=i[3], XQ=i[0][9], KS=int(i[0][10]),
+        JS=i[0][11] or 0, ZC1=i[0][12] or 0, ZC2=i[0][13] or 0,
+        SJBZ=i[0][14] or 0, showtext=i[0][15] or 0) for i in items]
+    Course.objects.bulk_create(items, batch_size=20)
