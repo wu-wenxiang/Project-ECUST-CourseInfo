@@ -2,6 +2,8 @@ from django.db import models
 
 class Campus(models.Model):
     name = models.CharField(verbose_name='校区', max_length=16, null=True, blank=True)
+    show_schedule = models.BooleanField(verbose_name='课表显示', default=True)
+    show_classroom = models.BooleanField(verbose_name='自习室显示', default=True)
 
     def __unicode__(self):
         return self.name
@@ -9,6 +11,8 @@ class Campus(models.Model):
 class Building(models.Model):
     campus = models.ForeignKey(Campus, on_delete=models.PROTECT)
     name = models.CharField(verbose_name='教学楼名称', max_length=16, null=True, blank=True)
+    show_schedule = models.BooleanField(verbose_name='课表显示', default=True)
+    show_classroom = models.BooleanField(verbose_name='自习室显示', default=True)
 
     def __unicode__(self):
         return self.name
@@ -24,6 +28,8 @@ class Classroom(models.Model):
     building = models.ForeignKey(Building, on_delete=models.PROTECT)
     name = models.CharField(verbose_name='教室名称', max_length=16, null=True, blank=True)
     classroomType = models.ForeignKey(ClassroomType, on_delete=models.PROTECT)
+    show_schedule = models.BooleanField(verbose_name='课表显示', default=True)
+    show_classroom = models.BooleanField(verbose_name='自习室显示', default=True)
 
     def __unicode__(self):
         return self.name
@@ -37,6 +43,7 @@ class Teacher(models.Model):
 
 class Term(models.Model):
     name = models.CharField(verbose_name='学期', max_length=32, null=True, blank=True)
+    firstMonday = models.DateField(verbose_name='第一周的周一日期', null=False, blank=False)
 
     def __unicode__(self):
         return self.name
