@@ -55,7 +55,7 @@ ROOT_URLCONF = 'courseinfo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,6 +106,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'zh-Hans'
+
+LOCALE_PATHS = (
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "../locale"),
+)
 
 TIME_ZONE = 'Asia/Shanghai'
 
