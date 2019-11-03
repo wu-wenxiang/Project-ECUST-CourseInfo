@@ -1,0 +1,17 @@
+- name: Install dependency packages
+  apt:
+    name:
+      - nginx
+      - supervisor
+      - docker.io
+    state: present
+
+- name: Make sure docker is running
+  systemd:
+    state: started
+    name: docker
+
+- name: Make sure docker is enabled
+  systemd:
+    name: docker
+    enabled: yes
