@@ -253,8 +253,7 @@ def self_study_list(request):
     weekday = get_weekday(data_str)
 
     #获得 教室类型为多媒体教室的id
-    room_ids = list(set(Classroom.objects.filter(TYPE = '多媒体教室', CAMPUS = campus,\
-            BUILDING = building).values_list('ROOM_ID', flat=True)))
+    room_ids = list(Classroom.objects.filter(type='多媒体教室', campus=campus, building=building).values_list('ROOM_ID', flat=True))
 
     models = Schedule.objects.filter(CLASSROOM_ID='xxxx') #空记录
     for room_id in room_ids:
