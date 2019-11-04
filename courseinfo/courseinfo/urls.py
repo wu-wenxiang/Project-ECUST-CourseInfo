@@ -22,7 +22,7 @@ urlpatterns = [
     path('classroom/', include('classroom.urls')),
     path('admin/', admin.site.urls),
 
-    # path(r'^choice/(?P<page>\d*)?$', views.choice, name="choice"),
+    path('choice/<int:page>', views.choice, name="choice"),
 
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -37,8 +37,8 @@ urlpatterns = [
     # path(r'^room/list/$', views.room_list, name="room_list"),
     # path(r'^kcmc/details/$', views.kcmc_details, name="kcmc_details"),
 
-    # path(r'^self/study/list/$', views.self_study_list, name="self_study_list"),
-    path(r'self/building/list/', views.self_building_list, name="self_building_list"),
+    path('self/study/list/', views.self_study_list, name="self_study_list"),
+    path('self/building/list/', views.self_building_list, name="self_building_list"),
 
     # path(r'^schedule/filter/$', views.schedule_filter, name="schedule_filter"),
     # path(r'^course/list/$', views.course_list, name="course_list"),

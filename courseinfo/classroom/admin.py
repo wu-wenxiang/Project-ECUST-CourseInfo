@@ -22,7 +22,8 @@ class ClassroomAdmin(admin.ModelAdmin):
 
 @admin.register(ClassroomType)
 class ClassroomTypeAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'show_schedule', 'show_classroom')
+    list_editable = ['show_schedule', 'show_classroom']
 
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):

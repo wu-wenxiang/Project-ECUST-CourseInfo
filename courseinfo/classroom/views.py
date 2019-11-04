@@ -110,7 +110,7 @@ def choice(request, page):
 #按教师姓名查
 def teacher_list(request, page):
     cleanData = request.GET.dict()
-    models = Schedule.objects.filter()
+    models = Course.objects.filter()
     if request.method == 'POST':
         cleanData = request.POST.dict()
         dict.pop(cleanData,'csrfmiddlewaretoken')
@@ -258,7 +258,7 @@ def self_study_list(request):
 
     models = Schedule.objects.filter(CLASSROOM_ID='xxxx') #空记录
     for room_id in room_ids:
-        models = models|Schedule.objects.filter(CLASSROOM_ID=room_id)
+        models = models | Schedule.objects.filter(CLASSROOM_ID=room_id)
 
     data_list = []
     datas = _filter_model(models, data_str) #data_str时间过滤

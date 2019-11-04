@@ -19,6 +19,8 @@ class Building(models.Model):
 
 class ClassroomType(models.Model):
     name = models.CharField(verbose_name='教室类型', primary_key=True, max_length=16, blank=True)
+    show_schedule = models.BooleanField(verbose_name='课表显示', default=True)
+    show_classroom = models.BooleanField(verbose_name='自习室显示', default=True)
 
     def __str__(self):
         return self.name
