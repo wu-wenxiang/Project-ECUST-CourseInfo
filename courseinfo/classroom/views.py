@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
+import datetime
+
 from .models import Campus, Building, ClassroomType, Classroom, Teacher, Term, Course
 from myAPI.pageAPI import djangoPage,PAGE_NUM,toInt
 from myAPI.dateAPI import get_year_weekday, get_weekday, get_date
@@ -73,22 +75,30 @@ def index(request):
 def courseInfo(request):
     return render(request, 'classroom/info-course.html', context=locals())
 
-def classroomInfo(request):
+def campusInfo(request):
     campuses = Campus.objects.filter(show_classroom=True).values_list('name', flat=True) #校区列表
     return render(request, 'classroom/info-campus.html', context=locals())
 
-def campusInfo(request, campus):
+def buildingInfo(request, campus):
     buildings = Building.objects.filter(campus=campus).filter(campus__show_classroom=True)
     buildings = buildings.filter(show_classroom=True).values_list('name', flat=True) #校区列表
     return render(request, 'classroom/info-building.html', context=locals())
 
-def buildingInfo(request, campus, building):
+def classroomInfo(request, campus, building):
+    cleanData = request.GET.dict()
+    date = cleanData.get('date', '').strip()
+    try:
+        date = datetime.date.fromisoformat(date)
+    except:
+        date = datetime.date.today()
+
     classrooms = Classroom.objects.filter(building__campus=campus)
     classrooms = classrooms.filter(building__campus__show_classroom=True)
     classrooms = classrooms.filter(building__name=building)
     classrooms = classrooms.filter(building__show_classroom=True)
     classrooms = classrooms.filter(classroomType__show_classroom=True)
     classrooms = classrooms.filter(show_classroom=True)
+    isocalendar = date.isocalendar()
     return render(request, 'classroom/info-classroom.html', context=locals())
 
 def choice(request, page):
@@ -142,24 +152,6 @@ def classname_list(request, page):
     data_list, pageList, num_pages, page = djangoPage(models,page,PAGE_NUM)
     offset = PAGE_NUM * (page - 1)
     return render(request, 'classroom/classname_list.html', context=locals())
-
-
-
-# 按教室分布查  校区 -- 教学楼列表
-def building_list(request):
-    cleanData = request.GET.dict()
-    campus_list = Campus.objects.values_list('name', flat=True)
-    campus_list = pinyin(campus_list)
-    if request.method == 'POST':
-        cleanData = request.POST.dict()
-        dict.pop(cleanData,'csrfmiddlewaretoken')
-        if cleanData.get('campus',''):
-            campus = cleanData['campus']
-            buildings = list(set(Building.objects.filter(\
-                    campus=campus).values_list('name', flat=True))) #教学楼列表
-            buildings = pinyin(buildings)
-            return render(request, 'classroom/building_list.html', context=locals())
-    return render(request, 'classroom/campus_list.html', context=locals())
 
 
 #教学楼 -- 教室列表

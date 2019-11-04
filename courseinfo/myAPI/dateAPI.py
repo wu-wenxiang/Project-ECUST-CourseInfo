@@ -12,18 +12,16 @@ def get_date(n):
        n=2   2019-09-28  后二天 
        ...  
     """
-    return  str(datetime.date.today() + datetime.timedelta(days=n))
+    return str(datetime.date.today() + datetime.timedelta(days=n))
 
 def get_year_weekday(date_str):
     """date_str:'2019-01-31'
        返回（年号，第几周，星期几）(2019, 5, 4) 
     """
-    return datetime.datetime.fromtimestamp(time.mktime(time.strptime(date_str,\
-                                                   "%Y-%m-%d"))).isocalendar()
+    return datetime.datetime.fromisoformat(date_str).isocalendar()
 
 def get_weekday(date_str):
     """date_str:'2019-01-31'
        返回 星期4
     """
-    return datetime.datetime.fromtimestamp(time.mktime(time.strptime(date_str,\
-                                    "%Y-%m-%d"))).isocalendar()[2]
+    return datetime.datetime.fromisoformat(date_str).isocalendar()[2]
