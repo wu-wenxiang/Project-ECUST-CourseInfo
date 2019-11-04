@@ -8,8 +8,8 @@
     <div class="col-md-12 column text-center">
     <div class="jumbotron">
         <h3> {% trans 'Classroom Search' %} -- {{ campus }} -- {{ building }} </h3>
-        {{ date.year }}/{{ date.month }}/{{ date.day }} -- 星期{{ isocalendar.2 }}
-
+        {{ date.year }}/{{ date.month }}/{{ date.day }} -- 第 {{week}} 周 -- 星期 {{ weekday }}
+        <br><br>
         <div class="col-md-12 column">
                 <form class="form-horizontal" role="form" action="" method="get">
                     <!-- {% csrf_token %} -->
@@ -46,15 +46,12 @@
             </tr>
             </thead>
             <tbody>
-            {% for data in data_list %}
+            {% for class in classroomList %}
                 <tr>
-
-                    {% for d in data %}
-                        {% if d >= 1 and d <= 13 %}
-                            <td><div style="background:#3ACC3A;">{{d}}</div></td>
-                        {% else %}
-                            <td>{{d}}</td>
-                        {% endif %}
+                    <td>{{ class.0.name }}</td>
+                    <td>{{ class.0.classroomType }}</td>
+                    {% for i in class.1 %}
+                    <td><div style="background:#3ACC3A;">{{ i }}</div></td>
                     {% endfor %}
                 </tr>
             {% endfor %}

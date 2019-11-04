@@ -8,7 +8,6 @@ urlpatterns = [
     path('classroominfo/', views.campusInfo, name='campusInfo'),
     path('classroominfo/<str:campus>/', views.buildingInfo),
     path('classroominfo/<str:campus>/<str:building>/', views.classroomInfo),
-    # path('classroominfo/<str:campus>/<str:building>/<int:year>/<int:month>/<int:day>/', views.classroomInfo),
 
     path('courseinfo/', views.courseInfo, name='courseinfo'),
 
