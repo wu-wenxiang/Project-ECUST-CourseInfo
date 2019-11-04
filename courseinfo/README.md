@@ -27,3 +27,12 @@ python initdb.py
 rm -rf static
 python manage.py collectstatic
 ```
+
+## Trans
+
+```bash
+django-admin makemessages
+# Modify po files
+django-admin compilemessages
+```
+

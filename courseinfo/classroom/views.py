@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Campus, Building, ClassroomType, Classroom, Teacher, Term, Course
 from myAPI.pageAPI import djangoPage,PAGE_NUM,toInt
 from myAPI.dateAPI import get_year_weekday, get_weekday, get_date
-from myAPI.listAPI import pinyin, get_english
+from myAPI.listAPI import pinyin
 
 
 def get_year_whichweek_week(date_str):
@@ -66,29 +66,29 @@ def _filter_model(models, date_str):
                 XQ__icontains = str(week), SJBZ = 0).order_by("-id")
     return  model
 
-
-
-SEARCH_LIST = ['按教室分布查','按课程名称查','按教师名称查'] #查询列表
+QUERY_COURSE_LIST = ['按教室分布查','按课程名称查','按教师名称查']
 
 #课程查询、自习室查询 查询
 def index(request):
-    query_list = ['课程查询','自习室查询'] #查询列表
+    return render(request, 'classroom/index.html', context=locals())
 
+def classroomInfo(request):
     if request.method == 'POST':
         cleanData = request.POST.dict()
         dict.pop(cleanData,'csrfmiddlewaretoken') #删除字典中的键'csrfmiddlewaretoken'和值
         queryString = '?'+'&'.join(['%s=%s' % (k,v) for k,v in cleanData.items()])
-        if cleanData['query'] == query_list[0]:
-            search_list = SEARCH_LIST
+        if cleanData['query'] == QUERY_LIST[0]:
+            search_list = QUERY_COURSE_LIST
             return render(request, 'classroom/class_list.html', context=locals())
 
-        if cleanData['query'] == query_list[1]:
+        if cleanData['query'] == QUERY_LIST[1]:
             return HttpResponseRedirect('/self/building/list/%s' %queryString)
-    return render(request, 'classroom/query_list.html', context=locals())
 
+def courseInfo(request):
+    pass
 
 def choice(request, page):
-    search_list = SEARCH_LIST
+    search_list = QUERY_COURSE_LIST
     cleanData = request.GET.dict()
     if request.method == 'POST':
         cleanData = request.POST.dict()
@@ -229,8 +229,6 @@ def self_building_list(request):
 
         campus = cleanData.get('campus','') #校区
         buildings = Building.objects.filter(campus=campus).values_list('name', flat=True) #教学楼列表
-        if campus == '奉贤校区':
-            buildings = get_english(buildings)
         buildings = pinyin(buildings)
         return render(request, 'classroom/self_building_list.html', context=locals())
     return render(request, 'classroom/self_campus_list.html', context=locals())
@@ -276,6 +274,6 @@ def self_study_list(request):
 
             if any(mlist):
                 mlist.insert(0, classroom_name) #插入教室名
-                mlist.insert(1,Classroom.objects.filter(ROOM_NAME=classroom_name).first().TYPE)#插入教室类型
+                mlist.insert(1, Classroom.objects.filter(ROOM_NAME=classroom_name).first().TYPE)#插入教室类型
                 data_list.append(mlist)
     return render(request, 'classroom/self_study_list.html', context=locals())

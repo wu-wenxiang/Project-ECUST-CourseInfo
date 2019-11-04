@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-06 20:21+0800\n"
+"POT-Creation-Date: 2019-11-04 12:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: templates/base.html:13
-msgid "Gaoyu Media"
-msgstr "高域传媒"
+#: classroom/templates/classroom/index.html:9
+msgid "ECUST Course Search System"
+msgstr "华东理工-课程管理查询系统"
 
-#~ msgid "hello world!"
-#~ msgstr "[zh-Hans]hello world!"
+#: classroom/templates/classroom/index.html:10
+msgid "Course Search"
+msgstr "课程查询"
+
+#: classroom/templates/classroom/index.html:12
+msgid "Classroom Search"
+msgstr "自习室查询"
+
+#: templates/base.html:13
+msgid "ECUST CourseInfo"
+msgstr "华东理工-课程信息系统"
