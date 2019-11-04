@@ -77,10 +77,19 @@ def classroomInfo(request):
     campuses = Campus.objects.filter(show_classroom=True).values_list('name', flat=True) #校区列表
     return render(request, 'classroom/info-campus.html', context=locals())
 
-def buildingInfo(request, campus):
+def campusInfo(request, campus):
     buildings = Building.objects.filter(campus=campus).filter(campus__show_classroom=True)
     buildings = buildings.filter(show_classroom=True).values_list('name', flat=True) #校区列表
     return render(request, 'classroom/info-building.html', context=locals())
+
+def buildingInfo(request, campus, building):
+    classrooms = Classroom.objects.filter(building__campus=campus)
+    classrooms = classrooms.filter(building__campus__show_classroom=True)
+    classrooms = classrooms.filter(building__name=building)
+    classrooms = classrooms.filter(building__show_classroom=True)
+    classrooms = classrooms.filter(classroomType__show_classroom=True)
+    classrooms = classrooms.filter(show_classroom=True)
+    return render(request, 'classroom/info-classroom.html', context=locals())
 
 def choice(request, page):
     cleanData = request.GET.dict()

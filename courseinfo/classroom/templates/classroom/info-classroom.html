@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="container theme-showcase" role="main">   
+{% load i18n %}
+<div class="container theme-showcase" role="main">
     <div class="col-md-12 column">
-        <a href='/' class="btn btn-lg btn-success btn-block"  > 返回 </a> 
+        <a href='/' class="btn btn-lg btn-success btn-block">{% trans 'Return' %}</a>
     </div><br><br><br>    
     <div class="col-md-12 column text-center">
     <div class="jumbotron">
@@ -10,7 +11,7 @@
         {{data_str}} -- 星期{{weekday}}
     
     
-    {% include 'account/update_downdate.html' %}
+    {% include 'classroom/update_downdate.html' %}
 
         <table class="table table-bordered table-hover">
             <thead>
