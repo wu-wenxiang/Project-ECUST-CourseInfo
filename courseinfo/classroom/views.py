@@ -66,26 +66,15 @@ def _filter_model(models, date_str):
                 XQ__icontains = str(week), SJBZ = 0).order_by("-id")
     return  model
 
-QUERY_COURSE_LIST = ['按教室分布查','按课程名称查','按教师名称查']
-
 #课程查询、自习室查询 查询
 def index(request):
     return render(request, 'classroom/index.html', context=locals())
 
 def classroomInfo(request):
-    if request.method == 'POST':
-        cleanData = request.POST.dict()
-        dict.pop(cleanData,'csrfmiddlewaretoken') #删除字典中的键'csrfmiddlewaretoken'和值
-        queryString = '?'+'&'.join(['%s=%s' % (k,v) for k,v in cleanData.items()])
-        if cleanData['query'] == QUERY_LIST[0]:
-            search_list = QUERY_COURSE_LIST
-            return render(request, 'classroom/class_list.html', context=locals())
-
-        if cleanData['query'] == QUERY_LIST[1]:
-            return HttpResponseRedirect('/self/building/list/%s' %queryString)
+    return HttpResponseRedirect('/self/building/list/%s' % queryString)
 
 def courseInfo(request):
-    pass
+    return render(request, 'classroom/courseInfo.html', context=locals())
 
 def choice(request, page):
     search_list = QUERY_COURSE_LIST

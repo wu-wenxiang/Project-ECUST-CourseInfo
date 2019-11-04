@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-04 12:02+0800\n"
+"POT-Creation-Date: 2019-11-04 13:23+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,13 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: classroom/templates/classroom/index.html:9
-msgid "ECUST Course Search System"
-msgstr "华东理工-课程管理查询系统"
-
+#: classroom/templates/classroom/class_list.html:8
 #: classroom/templates/classroom/index.html:10
 msgid "Course Search"
 msgstr "课程查询"
+
+#: classroom/templates/classroom/class_list.html:9
+msgid "Search by Classroom"
+msgstr "按教室分布查"
+
+#: classroom/templates/classroom/class_list.html:10
+msgid "Search by Course"
+msgstr "按课程名称查"
+
+#: classroom/templates/classroom/class_list.html:11
+msgid "Search by Teacher"
+msgstr "按教师名称查"
+
+#: classroom/templates/classroom/index.html:9
+msgid "ECUST Course Search System"
+msgstr "华东理工-课程管理查询系统"
 
 #: classroom/templates/classroom/index.html:12
 msgid "Classroom Search"
