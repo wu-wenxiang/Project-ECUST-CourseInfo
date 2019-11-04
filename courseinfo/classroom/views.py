@@ -70,14 +70,14 @@ def _filter_model(models, date_str):
 def index(request):
     return render(request, 'classroom/index.html', context=locals())
 
-def classroomInfo(request):
-    return HttpResponseRedirect('/self/building/list/%s' % queryString)
-
 def courseInfo(request):
-    return render(request, 'classroom/courseInfo.html', context=locals())
+    return render(request, 'classroom/info-course.html', context=locals())
+
+def classroomInfo(request):
+    campus_list = Campus.objects.values_list('name', flat=True) #校区列表
+    return render(request, 'classroom/info-campus.html', context=locals())
 
 def choice(request, page):
-    search_list = QUERY_COURSE_LIST
     cleanData = request.GET.dict()
     if request.method == 'POST':
         cleanData = request.POST.dict()
