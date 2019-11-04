@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-04 21:18+0800\n"
+"POT-Creation-Date: 2019-11-05 07:58+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgid "ECUST Course Search System"
 msgstr "华东理工-课程管理查询系统"
 
 #: classroom/templates/classroom/index.html:10
-#: classroom/templates/classroom/info-course.html:11
+#: classroom/templates/course/info-course.html:11
 msgid "Course Search"
 msgstr "课程查询"
 
@@ -36,19 +36,21 @@ msgstr "自习室查询"
 #: classroom/templates/classroom/info-building.html:6
 #: classroom/templates/classroom/info-campus.html:6
 #: classroom/templates/classroom/info-classroom.html:6
-#: classroom/templates/classroom/info-course.html:7
+#: classroom/templates/course/info-course.html:7
+#: classroom/templates/course/search-coursename.html:6
+#: classroom/templates/course/search-teachername.html:6
 msgid "Return"
 msgstr "返回"
 
-#: classroom/templates/classroom/info-course.html:12
+#: classroom/templates/course/info-course.html:12
 msgid "Search by Classroom"
 msgstr "按教室分布查"
 
-#: classroom/templates/classroom/info-course.html:13
+#: classroom/templates/course/info-course.html:13
 msgid "Search by Course"
 msgstr "按课程名称查"
 
-#: classroom/templates/classroom/info-course.html:14
+#: classroom/templates/course/info-course.html:14
 msgid "Search by Teacher"
 msgstr "按教师名称查"
 

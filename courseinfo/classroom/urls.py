@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('courseinfo/', views.courseInfo, name='courseinfo'),
     path('courseinfo/coursename/<int:page>/', views.courseNameSearch),
+    path('courseinfo/teachername/<int:page>/', views.teacherNameSearch),
 
     # path('choice/<int:page>', views.choice, name="choice"),
     # path(r'^classromm/list/$', views.classromm_list, name="classromm_list"),

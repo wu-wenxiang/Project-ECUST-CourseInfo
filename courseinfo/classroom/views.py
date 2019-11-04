@@ -84,43 +84,21 @@ def courseNameSearch(request, page):
         courses = courses.filter(name__icontains = coursename)
     data_list, pageList, num_pages, page = djangoPage(courses, page, PAGE_NUM)
     offset = PAGE_NUM * (page - 1)
-    return render(request, 'course/coursename-search.html', context=locals())
+    return render(request, 'course/search-coursename.html', context=locals())
 
-def choice(request, page):
+def teacherNameSearch(request, page):
     cleanData = request.GET.dict()
-    if request.method == 'POST':
-        cleanData = request.POST.dict()
-        dict.pop(cleanData,'csrfmiddlewaretoken') #删除字典中的键'csrfmiddlewaretoken'和值
-    queryString = '?'+'&'.join(['%s=%s' % (k,v) for k,v in cleanData.items()])
+    teachername = cleanData.get('teachername', '').strip()
 
-    #按教室分布查
-    if cleanData.get(search_list[0],''):
-        return HttpResponseRedirect('/building/list/%s' %queryString)
+    queryString = '?'+'&'.join(['%s=%s' % (k,v) for (k,v) in cleanData.items()])
+    baseUrl = '/courseinfo/teachername'
 
-    #按课程名称查
-    if cleanData.get(search_list[1],''):
-        return HttpResponseRedirect('/classname/list/%s' %queryString)
-
-    #按教师姓名查
-    if cleanData.get(search_list[2],''):
-        return HttpResponseRedirect('/teacher/list/%s' %queryString)
-
-#按教师姓名查
-def teacher_list(request, page):
-    cleanData = request.GET.dict()
-    models = Course.objects.filter()
-    if request.method == 'POST':
-        cleanData = request.POST.dict()
-        dict.pop(cleanData,'csrfmiddlewaretoken')
-
-    if cleanData.get('teacher', ''):
-        models = models.filter(TEACHER_NAME__icontains = cleanData['teacher'])
-
-    queryString = '?'+'&'.join(['%s=%s' % (k,v) for k,v in cleanData.items()])
-    data_list, pageList, num_pages, page = djangoPage(models,page,PAGE_NUM)
+    courses = Course.objects.filter()
+    if teachername:
+        courses = courses.filter(teacher__name__icontains = teachername)
+    data_list, pageList, num_pages, page = djangoPage(courses, page, PAGE_NUM)
     offset = PAGE_NUM * (page - 1)
-    return render(request, 'classroom/teacher_list.html', context=locals())
-
+    return render(request, 'course/search-teachername.html', context=locals())
 
 #教学楼 -- 教室列表
 def room_list(request):
