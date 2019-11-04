@@ -43,9 +43,12 @@ def classroomInfo(request, campus, building):
         date = datetime.date.today()
 
     classrooms = Classroom.objects.filter(
-        building__campus=campus, building__campus__show_classroom=True,
-        building__name=building, building__show_classroom=True,
-        classroomType__show_classroom=True, show_classroom=True)
+        building__campus=campus,
+        building__campus__show_classroom=True,
+        building__name=building,
+        building__show_classroom=True,
+        classroomType__show_classroom=True,
+        show_classroom=True).order_by("name")
     term, week, weekday = _getDateInfo(date)
 
     classroomList = []
