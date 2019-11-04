@@ -5,7 +5,7 @@ import datetime
 from functools import reduce
 
 from .models import Campus, Building, ClassroomType, Classroom, Teacher, Term, Course
-from myAPI.pageAPI import djangoPage,PAGE_NUM,toInt
+from myAPI.pageAPI import djangoPage, PAGE_NUM, toInt
 from myAPI.dateAPI import get_year_weekday, get_weekday, get_date
 from myAPI.listAPI import pinyin
 
@@ -21,9 +21,6 @@ def _getDateInfo(date):
 
 def index(request):
     return render(request, 'classroom/index.html', context=locals())
-
-def courseInfo(request):
-    return render(request, 'classroom/info-course.html', context=locals())
 
 def campusInfo(request):
     campuses = Campus.objects.filter(show_classroom=True).values_list('name', flat=True)
@@ -59,7 +56,7 @@ def classroomInfo(request, campus, building):
             ZC1__lte = week,
             ZC2__gte = week,
             XQ=weekday,
-            )
+        )
         # print(i, i.id, list(courses))
         courses = list(courses.filter(SJBZ=0)) + list(courses.filter(SJBZ=(week%2)))
 
@@ -71,6 +68,23 @@ def classroomInfo(request, campus, building):
         classroomList.append((i, idles))
 
     return render(request, 'classroom/info-classroom.html', context=locals())
+
+def courseInfo(request):
+    return render(request, 'course/info-course.html', context=locals())
+
+def courseNameSearch(request, page):
+    cleanData = request.GET.dict()
+    coursename = cleanData.get('coursename', '').strip()
+
+    queryString = '?'+'&'.join(['%s=%s' % (k,v) for (k,v) in cleanData.items()])
+    baseUrl = '/courseinfo/coursename'
+
+    courses = Course.objects.filter()
+    if coursename:
+        courses = courses.filter(name__icontains = coursename)
+    data_list, pageList, num_pages, page = djangoPage(courses, page, PAGE_NUM)
+    offset = PAGE_NUM * (page - 1)
+    return render(request, 'course/coursename-search.html', context=locals())
 
 def choice(request, page):
     cleanData = request.GET.dict()
@@ -106,23 +120,6 @@ def teacher_list(request, page):
     data_list, pageList, num_pages, page = djangoPage(models,page,PAGE_NUM)
     offset = PAGE_NUM * (page - 1)
     return render(request, 'classroom/teacher_list.html', context=locals())
-
-
-#按课程名称查
-def classname_list(request, page):
-    cleanData = request.GET.dict()
-    models = Schedule.objects.filter()
-    if request.method == 'POST':
-        cleanData = request.POST.dict()
-        dict.pop(cleanData,'csrfmiddlewaretoken')
-
-    if cleanData.get('kcmc', ''):
-        models = models.filter(KCMC__icontains = cleanData['kcmc'])
-
-    queryString = '?'+'&'.join(['%s=%s' % (k,v) for k,v in cleanData.items()])
-    data_list, pageList, num_pages, page = djangoPage(models,page,PAGE_NUM)
-    offset = PAGE_NUM * (page - 1)
-    return render(request, 'classroom/classname_list.html', context=locals())
 
 
 #教学楼 -- 教室列表

@@ -5,9 +5,9 @@
             <span>{{ i }}</span>
         {% else %}
             {% if i == page %}
-                <a href="{{ i }}{{ queryString }}" class="btn btn-lg btn-primary">{{ i }}</a>
+                <a href="{{ baseUrl }}/{{ i }}/{{ queryString }}" class="btn btn-lg btn-primary">{{ i }}</a>
             {% else %}
-                <a href="{{ i }}{{ queryString }}" class="btn btn-lg btn-default">{{ i }}</a>
+                <a href="{{ baseUrl }}/{{ i }}/{{ queryString }}" class="btn btn-lg btn-default">{{ i }}</a>
             {% endif %}
         {% endif %}
     {% endfor %}   

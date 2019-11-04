@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% block body %}
+{% load i18n %}
 <div class="container theme-showcase" role="main">
-    <a href='/' class="btn btn-lg btn-success btn-block"  > 返回 </a> <br>
-    <br>
+    <div class="col-md-12 column">
+        <a href='/' class="btn btn-lg btn-success btn-block">{% trans 'Return' %}</a>
+    </div><br><br><br>
     <div class="jumbotron">   
-    <form method="post" action="#">
-        {% csrf_token %}
+    <form method="get" action="">
         <div class="col-md-12 column">
             <div class="input-group">
                 <span class="input-group-addon">按课程名称查</span>
-                <input type="text" class="form-control" placeholder="按课程名称查" 
-                name="kcmc" value="" autofocus />
+                <input type="text" class="form-control" placeholder="按课程名称查" name="coursename" value="" autofocus />
                 </input>
             </div>            
         </div>        
@@ -21,8 +21,6 @@
     </form>
 
 </div>
-
-    
 
     <div class="jumbotron">
 
@@ -47,10 +45,10 @@
                 <tr>
                     
                     <td>{{ forloop.counter | add:offset }}</td>
-                    <td>{{ d.KCMC }}</td>
-                    <td>{{ d.TEACHER_NAME }}</td>
+                    <td>{{ d.name }}</td>
+                    <td>{{ d.teacher }}</td>
                     
-                    <td>{{ d.CLASSROOM_NAME}}</td>
+                    <td>{{ d.classroom}}</td>
                     <td>{{ d.XQ}}</td>
                     <td>{{ d.KS}} - {{ d.JS}} 节</td>
                     <td>{{ d.START_TIME }}</td>
