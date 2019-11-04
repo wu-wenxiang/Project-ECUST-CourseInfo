@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container theme-showcase" role="main">
+    <br><br><br><br>   
+    <div class="col-md-1 column"></div>
+    <div class="col-md-10 column">
+        <div class="jumbotron"> 
+            <div class="text-center" ><h3>华东理工课程管理 查询列表 <h3></div>
+
+            {% for query in query_list %}                                
+                <form action='/' method='post' name='{{forloop.counter}}' id='{{forloop.counter}}' enctype='multipart/form-data'>
+                    {% csrf_token %}
+                    <input  name='query' value='{{query}}' style="display:none" type='text'>
+                </form>
+
+                <a href='#' class="btn btn-lg btn-danger btn-block" onclick="document.getElementById('{{forloop.counter}}').submit();"/>
+                    {{query}}
+                </a>
+                <br><br>      
+            {% endfor %}           
+        </div>        
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container theme-showcase" role="main">   
+    <div class="col-md-12 column">
+        <a href='/' class="btn btn-lg btn-success btn-block"  > 返回 </a> 
+    </div><br><br><br>    
+    <div class="col-md-12 column text-center">
+    <div class="jumbotron">
+        <h3> {{query}} -- {{campus}} -- {{building}} </h3>
+        {{data_str}} -- 星期{{weekday}}
+    
+    
+    {% include 'account/update_downdate.html' %}
+
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>教室名称</th>
+                <th>教室类型</th>
+                <th>第01节</th>
+                <th>第02节</th>
+                <th>第03节</th>
+                <th>第04节</th>
+                <th>第05节</th>
+                <th>第06节</th>
+                <th>第07节</th>
+                <th>第08节</th>
+                <th>第09节</th>
+                <th>第10节</th>
+                <th>第11节</th>
+                <th>第12节</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for data in data_list %}
+                <tr>
+
+                    {% for d in data %}
+                        {% if d >= 1 and d <= 13 %}    
+                            <td><div style="background:#3ACC3A;">{{d}}</div></td>
+                        {% else %}
+                            <td>{{d}}</td>
+                        {% endif %}                       
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>    
+</div>
+{% endblock %}

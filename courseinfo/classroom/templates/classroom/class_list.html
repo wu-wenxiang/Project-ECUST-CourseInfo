@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container theme-showcase" role="main">
+    <br><br><br><br>   
+    <div class="col-md-1 column"></div>
+    <div class="col-md-10 column">
+        <div class="jumbotron"> 
+            <div class="text-center" ><h3> {{ query_list.0 }} <h3></div>
+                {% for s in search_list %}                           
+                    <form action='/choice/1' method='post' name='{{forloop.counter}}' id='{{forloop.counter}}' enctype='multipart/form-data'>
+                        {% csrf_token %}
+                        <input  name='query' value='{{ query_list.0 }}' style="display:none" type='text'>                                            
+                        <input type="text" name="{{s}}" value="{{s}}"  style="display:none" > 
+                    </form>
+                    <a href='#' class="btn btn-lg btn-danger btn-block" onclick="document.getElementById('{{forloop.counter}}').submit();"/>
+                    {{s}}
+                    </a> <br><br>
+                {% endfor %}                      
+        </div>        
+    </div>
+</div>
+{% endblock %}
