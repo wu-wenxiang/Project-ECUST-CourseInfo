@@ -4,8 +4,9 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('classroominfo', views.classroomInfo, name='classroomInfo'),
-    path('courseinfo', views.courseInfo, name='courseInfo'),
+    path('classroominfo', views.classroomInfo, name='classroominfo'),
+    path('courseinfo', views.courseInfo, name='courseinfo'),
+    path('classroominfo/<str:campus>', views.buildingInfo, name="classroominfo/campus"),
 
     # path('choice/<int:page>', views.choice, name="choice"),
     # path(r'^classromm/list/$', views.classromm_list, name="classromm_list"),

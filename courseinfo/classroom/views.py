@@ -74,8 +74,13 @@ def courseInfo(request):
     return render(request, 'classroom/info-course.html', context=locals())
 
 def classroomInfo(request):
-    campus_list = Campus.objects.values_list('name', flat=True) #校区列表
+    campuses = Campus.objects.filter(show_classroom=True).values_list('name', flat=True) #校区列表
     return render(request, 'classroom/info-campus.html', context=locals())
+
+def buildingInfo(request, campus):
+    buildings = Building.objects.filter(campus=campus).filter(campus__show_classroom=True)
+    buildings = buildings.filter(show_classroom=True).values_list('name', flat=True) #校区列表
+    return render(request, 'classroom/info-building.html', context=locals())
 
 def choice(request, page):
     cleanData = request.GET.dict()
@@ -205,22 +210,6 @@ def course_list(request):
     building = Classroom.objects.filter(ROOM_ID=cid).first().BUILDING
     room = Classroom.objects.filter(ROOM_ID=cid).first().ROOM_NAME
     return render(request, 'classroom/course_details_list.html', context=locals())
-
-#自习室查询
-#校区 -- 教学楼列表
-def self_building_list(request):
-    cleanData = request.GET.dict()
-    campus_list = Campus.objects.values_list('name', flat=True) #校区列表
-    campus_list = pinyin(campus_list)
-    if request.method == 'POST':
-        cleanData = request.POST.dict()
-        dict.pop(cleanData,'csrfmiddlewaretoken')
-
-        campus = cleanData.get('campus','') #校区
-        buildings = Building.objects.filter(campus=campus).values_list('name', flat=True) #教学楼列表
-        buildings = pinyin(buildings)
-        return render(request, 'classroom/self_building_list.html', context=locals())
-    return render(request, 'classroom/self_campus_list.html', context=locals())
 
 
 # 自习教室查询
