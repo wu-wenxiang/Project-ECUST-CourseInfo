@@ -4,7 +4,7 @@
 <div class="container theme-showcase" role="main">
     <div class="col-md-12 column">
         <a href='/' class="btn btn-lg btn-success btn-block">{% trans 'Return' %}</a>
-    </div><br>
+    </div><br><br><br>
     <div class="col-md-12 column">
         <div class="jumbotron">            
             <div class="text-center">
@@ -32,8 +32,7 @@
                 <tr>               
                     <th>课节</th>                   
                     <th>课程名称</th>
-                    <th>教师名称</th>
-                    <th>课程安排</th>                
+                    <th>教师名称</th>           
                 </tr>
             </thead>
             <tbody>       
@@ -42,12 +41,11 @@
                         <td>{{ d.j}}</td>
 
                         {% if d.KCMC %}  
-                            <td><a href='/course/list/?kcmc={{d.KCMC}}&date={{data_str}}&t={{d.TEACHER_NAME}}&cid={{d.CLASSROOM_ID}}'><i class="fa fa-university" aria-hidden="true">{{ d.KCMC }}</i></a> </td> 
+                            <td><a href='/courseinfo/{{d.id}}/'><i class="fa fa-university" aria-hidden="true">{{ d.KCMC }}</i></a> </td> 
                         {% else %} 
                             <td></td> 
                         {% endif %}
-                        <td>{{ d.TEACHER_NAME}}</td> 
-                        <td>{{ d.START_TIME}}</td> 
+                        <td>{{ d.TEACHER_NAME}}</td>
                     </tr>
                 {% endfor %}
             </tbody>

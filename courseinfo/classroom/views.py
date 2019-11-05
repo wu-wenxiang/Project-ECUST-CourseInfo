@@ -123,38 +123,41 @@ def classroomDetails(request, campus, building, classroom):
         name=classroom,
     )
 
-    print(room.name, room.id)
-
+    # print(room.name, room.id)
     if classroom:
         courses = Course.objects.filter(
             classroom__id=room.id,
-            # term=term,
-            # ZC1__lte = week,
-            # ZC2__gte = week,
-            # XQ=weekday,
+            term=term,
+            ZC1__lte = week,
+            ZC2__gte = week,
+            XQ=weekday,
         )
-        print(list(courses))
         courses = list(courses.filter(SJBZ=0)) + list(courses.filter(SJBZ=(week%2)))
-        print([(j, j.KS, j.JS) for j in courses])
-     
+        courses = {(j.KS,j.JS):j for j in courses}
+        courses = sorted(courses.values(), key=lambda x: x.name)
+        # print(courses)
 
-    # mylist = []
-    # for n in range(0,12):
-    #     mylist.append(['','','',''])
+    mylist = []
+    for n in range(0,12):
+        mylist.append(['','','',''])
     
-    # for model in data_list:  
-    #     ks = model.KS
-    #     js = model.JS              
-    #     for n in range(ks-1,js):
-    #         mylist[n] = [model.START_TIME, model.KCMC, model.TEACHER_NAME,model.CLASSROOM_ID]
+    for model in courses:  
+        ks = model.KS
+        js = model.JS              
+        for n in range(ks-1,js):
+            mylist[n] = [model.id, model.name, model.teacher, model.classroom]
     
-    # mlist = []
-    # k = ['j','START_TIME','KCMC','TEACHER_NAME','CLASSROOM_ID']
-    # for (index,m) in enumerate(mylist):
-    #     v = ['第%s节'%(index+1), m[0], m[1], m[2], m[3]]
-    #     d = dict(zip(k,v))
-    #     mlist.append(d)
+    mlist = []
+    k = ['j', 'id', 'KCMC', 'TEACHER_NAME', 'CLASSROOM_ID']
+    for (index,m) in enumerate(mylist):
+        v = ['第%s节'%(index+1)] + m
+        d = dict(zip(k,v))
+        mlist.append(d)
     return render(request, 'classroom/info-classroom-details.html', context=locals())
+
+def courseDetails(request, id):
+    courses = Course.objects.filter(id=id)
+    return render(request, 'classroom/info-course-details.html', context=locals())
 
 def courseNameSearch(request, page):
     cleanData = request.GET.dict()

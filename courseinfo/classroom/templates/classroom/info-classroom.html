@@ -30,7 +30,6 @@
             <thead>
             <tr>
                 <th>名称</th>
-                <th>类型</th>
                 <th>01</th>
                 <th>02</th>
                 <th>03</th>
@@ -49,7 +48,6 @@
             {% for class in classroomList %}
                 <tr>
                     <td>{{ class.0.name }}</td>
-                    <td>{{ class.0.classroomType }}</td>
                     {% for i in class.1 %}
                     <td><div style="background:#3ACC3A;">{{ i }}</div></td>
                     {% endfor %}
