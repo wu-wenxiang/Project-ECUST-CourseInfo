@@ -43,6 +43,7 @@ def classroomInfo(request, campus, building):
         date = datetime.date.fromisoformat(date)
     except:
         date = datetime.date.today()
+    term, week, weekday = _getDateInfo(date)
 
     classrooms = Classroom.objects.filter(
         building__campus=campus,
@@ -52,7 +53,6 @@ def classroomInfo(request, campus, building):
         classroomType__show_classroom=True,
         show_classroom=True
     ).order_by("name")
-    term, week, weekday = _getDateInfo(date)
 
     classroomList = []
     for i in classrooms:
@@ -100,9 +100,61 @@ def courseClassroom(request, campus, building):
         building__name=building,
         building__show_schedule=True,
         classroomType__show_schedule=True,
-        show_schedule=True
+        show_schedule=True,
     ).order_by("name").values_list('name', flat=True)
     return render(request, 'classroom/info-classroom-list.html', context=locals())
+
+def classroomDetails(request, campus, building, classroom): 
+    cleanData = request.GET.dict()
+    date = cleanData.get('date', '').strip()
+    try:
+        date = datetime.date.fromisoformat(date)
+    except:
+        date = datetime.date.today()
+    term, week, weekday = _getDateInfo(date)
+
+    room = Classroom.objects.get(
+        building__campus=campus,
+        building__campus__show_schedule=True,
+        building__name=building,
+        building__show_schedule=True,
+        classroomType__show_schedule=True,
+        show_schedule=True,
+        name=classroom,
+    )
+
+    print(room.name, room.id)
+
+    if classroom:
+        courses = Course.objects.filter(
+            classroom__id=room.id,
+            # term=term,
+            # ZC1__lte = week,
+            # ZC2__gte = week,
+            # XQ=weekday,
+        )
+        print(list(courses))
+        courses = list(courses.filter(SJBZ=0)) + list(courses.filter(SJBZ=(week%2)))
+        print([(j, j.KS, j.JS) for j in courses])
+     
+
+    # mylist = []
+    # for n in range(0,12):
+    #     mylist.append(['','','',''])
+    
+    # for model in data_list:  
+    #     ks = model.KS
+    #     js = model.JS              
+    #     for n in range(ks-1,js):
+    #         mylist[n] = [model.START_TIME, model.KCMC, model.TEACHER_NAME,model.CLASSROOM_ID]
+    
+    # mlist = []
+    # k = ['j','START_TIME','KCMC','TEACHER_NAME','CLASSROOM_ID']
+    # for (index,m) in enumerate(mylist):
+    #     v = ['第%s节'%(index+1), m[0], m[1], m[2], m[3]]
+    #     d = dict(zip(k,v))
+    #     mlist.append(d)
+    return render(request, 'classroom/info-classroom-details.html', context=locals())
 
 def courseNameSearch(request, page):
     cleanData = request.GET.dict()

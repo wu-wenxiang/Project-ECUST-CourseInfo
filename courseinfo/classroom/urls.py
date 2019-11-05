@@ -15,6 +15,7 @@ urlpatterns = [
     path('courseinfo/classroom/', views.courseCampus, name='courseinfo/classroom'),
     path('courseinfo/classroom/<str:campus>/', views.courseBuilding),
     path('courseinfo/classroom/<str:campus>/<str:building>/', views.courseClassroom),
+    path('courseinfo/classroom/<str:campus>/<str:building>/<str:classroom>/', views.classroomDetails),
 
     # path('choice/<int:page>', views.choice, name="choice"),
     # path(r'^classromm/list/$', views.classromm_list, name="classromm_list"),
