@@ -11,7 +11,7 @@
             <div class="text-center" ><h3>{% trans 'Classroom Search' %}<h3></div>
             <br/><br/>
             {% for campus in campuses %}                 
-                <a href='/classroominfo/{{ campus }}' class="btn btn-lg btn-danger btn-block">{{ campus }}</a><br><br>      
+                <a href='{{ baseUrl }}/{{ campus }}' class="btn btn-lg btn-danger btn-block">{{ campus }}</a><br><br>      
             {% endfor %}
         </div>        
     </div>

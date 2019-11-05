@@ -23,12 +23,17 @@ def index(request):
     return render(request, 'classroom/index.html', context=locals())
 
 def campusInfo(request):
+    baseUrl = '/classroominfo'
     campuses = Campus.objects.filter(show_classroom=True).values_list('name', flat=True)
     return render(request, 'classroom/info-campus.html', context=locals())
 
 def buildingInfo(request, campus):
-    buildings = Building.objects.filter(campus=campus).filter(
-        campus__show_classroom=True, show_classroom=True).values_list('name', flat=True)
+    baseUrl = '/classroominfo'
+    buildings = Building.objects.filter(
+        campus=campus,
+        campus__show_classroom=True,
+        show_classroom=True
+    ).values_list('name', flat=True)
     return render(request, 'classroom/info-building.html', context=locals())
 
 def classroomInfo(request, campus, building):
@@ -45,7 +50,8 @@ def classroomInfo(request, campus, building):
         building__name=building,
         building__show_classroom=True,
         classroomType__show_classroom=True,
-        show_classroom=True).order_by("name")
+        show_classroom=True
+    ).order_by("name")
     term, week, weekday = _getDateInfo(date)
 
     classroomList = []
@@ -70,7 +76,33 @@ def classroomInfo(request, campus, building):
     return render(request, 'classroom/info-classroom.html', context=locals())
 
 def courseInfo(request):
-    return render(request, 'course/info-course.html', context=locals())
+    return render(request, 'classroom/info-course.html', context=locals())
+
+def courseCampus(request):
+    baseUrl = '/courseinfo/classroom'
+    campuses = Campus.objects.filter(show_schedule=True).values_list('name', flat=True)
+    return render(request, 'classroom/info-campus.html', context=locals())
+
+def courseBuilding(request, campus):
+    baseUrl = '/courseinfo/classroom'
+    buildings = Building.objects.filter(
+        campus=campus,
+        campus__show_schedule=True,
+        show_schedule=True
+    ).values_list('name', flat=True)
+    return render(request, 'classroom/info-building.html', context=locals())
+
+def courseClassroom(request, campus, building):
+    baseUrl = '/courseinfo/classroom'
+    classrooms = Classroom.objects.filter(
+        building__campus=campus,
+        building__campus__show_schedule=True,
+        building__name=building,
+        building__show_schedule=True,
+        classroomType__show_schedule=True,
+        show_schedule=True
+    ).order_by("name").values_list('name', flat=True)
+    return render(request, 'classroom/info-classroom-list.html', context=locals())
 
 def courseNameSearch(request, page):
     cleanData = request.GET.dict()
@@ -84,7 +116,7 @@ def courseNameSearch(request, page):
         courses = courses.filter(name__icontains = coursename)
     data_list, pageList, num_pages, page = djangoPage(courses, page, PAGE_NUM)
     offset = PAGE_NUM * (page - 1)
-    return render(request, 'course/search-coursename.html', context=locals())
+    return render(request, 'classroom/search-coursename.html', context=locals())
 
 def teacherNameSearch(request, page):
     cleanData = request.GET.dict()
@@ -98,62 +130,4 @@ def teacherNameSearch(request, page):
         courses = courses.filter(teacher__name__icontains = teachername)
     data_list, pageList, num_pages, page = djangoPage(courses, page, PAGE_NUM)
     offset = PAGE_NUM * (page - 1)
-    return render(request, 'course/search-teachername.html', context=locals())
-
-#教学楼 -- 教室列表
-def room_list(request):
-    if request.method == 'POST':
-        cleanData = request.POST.dict()
-        rooms = list(set(Classroom.objects.filter(BUILDING =\
-            cleanData.get('building','')).values_list('ROOM_NAME', flat=True))) #教室列表
-        rooms = pinyin(rooms)
-    return render(request, 'classroom/room_list.html', context=locals())
-
-
-#教室、时间 -- 教室课程表
-def kcmc_details(request):
-    cleanData = request.GET.dict()
-    if request.method == 'POST':
-        cleanData = request.POST.dict()
-
-    data_str,count = get_update_downdate(cleanData) # 2019-09-28,0
-
-    query,campus,building,room = cleanData.get('query',''),cleanData.get('campus',''),\
-            cleanData.get('building',''),cleanData.get('room','')
-
-    weekday = get_weekday(data_str)
-    models = Schedule.objects.filter(CLASSROOM_NAME__icontains = \
-            cleanData.get('room', '')) #由教室名 获得记录   信息楼109A
-    data_list =  _filter_model(models, data_str)
-
-    mylist = []
-    for n in range(0,12):
-        mylist.append(['','','',''])
-
-    for model in data_list:
-        ks = model.KS
-        js = model.JS
-        for n in range(ks-1,js):
-            mylist[n] = [model.START_TIME, model.KCMC, model.TEACHER_NAME,model.CLASSROOM_ID]
-
-    mlist = []
-    k = ['j','START_TIME','KCMC','TEACHER_NAME','CLASSROOM_ID']
-    for (index,m) in enumerate(mylist):
-        v = ['第%s节'%(index+1), m[0], m[1], m[2], m[3]]
-        d = dict(zip(k,v))
-        mlist.append(d)
-    return render(request, 'classroom/kcmc_details_list.html', context=locals())
-
-def course_list(request):
-    cleanData = request.GET.dict()
-    date_str = cleanData.get('date','2000-01-01')
-    cid = cleanData.get('cid',1)
-
-    weekday = get_weekday(date_str)
-    models = Schedule.objects.filter(KCMC = cleanData.get('kcmc',''),\
-                        TEACHER_NAME = cleanData.get('t',''))
-    data_list = _filter_model(models, date_str)
-    campus = Classroom.objects.filter(ROOM_ID=cid).first().CAMPUS
-    building = Classroom.objects.filter(ROOM_ID=cid).first().BUILDING
-    room = Classroom.objects.filter(ROOM_ID=cid).first().ROOM_NAME
-    return render(request, 'classroom/course_details_list.html', context=locals())
+    return render(request, 'classroom/search-teachername.html', context=locals())
