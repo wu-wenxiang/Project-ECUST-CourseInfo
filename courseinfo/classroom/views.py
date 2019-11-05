@@ -7,7 +7,7 @@ from functools import reduce
 from .models import Campus, Building, ClassroomType, Classroom, Teacher, Term, Course
 from myAPI.pageAPI import djangoPage, PAGE_NUM, toInt
 from myAPI.dateAPI import get_year_weekday, get_weekday, get_date
-from myAPI.listAPI import pinyin
+from myAPI.listAPI import pinyinSort
 
 
 def _getDateInfo(date):
@@ -34,6 +34,7 @@ def buildingInfo(request, campus):
         campus__show_classroom=True,
         show_classroom=True
     ).values_list('name', flat=True)
+    buildings = pinyinSort(buildings)
     return render(request, 'classroom/info-building.html', context=locals())
 
 def classroomInfo(request, campus, building):

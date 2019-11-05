@@ -15,7 +15,7 @@ def is_list_chinese(mylist):
     return any(is_chinese(i) for i in mylist)
 
 
-def pinyin(mylist):
+def pinyinSort(mylist):
     if is_list_chinese(mylist):
         """如果有中文,按拼音排序"""
         return sorted(mylist, key=lazy_pinyin)
