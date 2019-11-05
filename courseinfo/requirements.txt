@@ -1,3 +1,4 @@
+gevent
 django==2.2.6
 django-filter
 monthdelta

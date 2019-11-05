@@ -1,9 +1,4 @@
 [all:vars]
-uuid = 50583d247b5c4a8cb09045f705d2cd16
-project_name = CourseInfo
-gunicorn_port = 8000
-domain = demo-course-search.trystack.cn
-source = https://github.com/wu-wenxiang/Project-ECUST-CourseInfo
 
 [webserver]
 course

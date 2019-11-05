@@ -23,8 +23,8 @@
   loop:
     - docker
 
-# - name: Pull docker images ubuntu:18.04
-#   docker_image:
-#     state: present
-#     name: ubuntu
-#     tag: "18.04"
+- name: Pull docker images maodouzi/ecust-courseinfo:v1.0
+  docker_image:
+    state: present
+    name: maodouzi/ecust-courseinfo
+    tag: "v1.0"
