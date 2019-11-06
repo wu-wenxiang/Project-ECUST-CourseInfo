@@ -11,12 +11,24 @@
 	pip 19.3.1 from /usr/local/lib/python3.7/site-packages/pip (python 3.7)
 	```
 
+1. 切换到 courseinfo 目录，安装 pip 依赖
+
+	```console
+	$ ls
+	README.md        courseinfo       excel            locale           myAPI            static           templates
+	classroom        db.sqlite3       initdb.py        manage.py        requirements.txt static_common
+	$ pip install -r requirements.txt
+	```
+
 1. 切换到 courseinfo 目录，初始化数据库
 
-	```bash
-	python manage.py migrate
-	python manage.py flush --noinput
-	python initdb.py
+	```console
+	$ ls
+	README.md        courseinfo       excel            locale           myAPI            static           templates
+	classroom        db.sqlite3       initdb.py        manage.py        requirements.txt static_common
+	$ python manage.py migrate
+	$ python manage.py flush --noinput
+	$ python initdb.py
 	```
 
 1. 运行站点，浏览器访问：`http://127.0.0.1:8000/`
