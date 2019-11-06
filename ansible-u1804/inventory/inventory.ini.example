@@ -1,4 +1,8 @@
 [all:vars]
+image_name="maodouzi/ecust-courseinfo"
+image_version="v1.0"                    # default: latest
+# container_port="80"                   # default: 80
+# host_port="80"                        # default: 80
 
 [webserver]
 course

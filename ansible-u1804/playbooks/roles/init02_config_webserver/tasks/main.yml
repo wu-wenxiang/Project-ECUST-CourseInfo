@@ -23,8 +23,16 @@
   loop:
     - docker
 
-- name: Pull docker images maodouzi/ecust-courseinfo:v1.0
+- name: Pull docker images {{ image_name }}:{{ image_version | default('latest') }}
   docker_image:
     state: present
-    name: maodouzi/ecust-courseinfo
-    tag: "v1.0"
+    name: "{{ image_name }}"
+    tag: "{{ image_version | default('latest') }}"
+
+- name: Container present
+  docker_container:
+    name: "{{ container_name }}"
+    state: started
+    image: "{{ image_name }}:{{ image_version | default('latest') }}"
+    ports:
+      - "{{ host_port | default('80') }}:{{ container_port | default('80') }}"
