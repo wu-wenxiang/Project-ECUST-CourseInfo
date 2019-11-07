@@ -26,8 +26,9 @@ RUN mkdir -p /home/www/ecustCourseInfo/tool
 RUN mkdir -p /home/www/ecustCourseInfo/src
 WORKDIR /home/www/ecustCourseInfo
 COPY courseinfo /home/www/ecustCourseInfo/src/courseinfo
+COPY requirements.txt /home/www/ecustCourseInfo/src/courseinfo/requirements.txt
 RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/db.sqlite3
-# RUN cd /home/www/ecustCourseInfo/src/courseinfo && python manage.py migrate && python initdb.py && rm -rf initdb.py
+RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/initdb.py
 RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/static
 RUN pip install -r /home/www/ecustCourseInfo/src/courseinfo/requirements.txt
 RUN cd /home/www/ecustCourseInfo/src/courseinfo && python manage.py collectstatic
