@@ -11,12 +11,12 @@
 	pip 19.3.1 from /usr/local/lib/python3.7/site-packages/pip (python 3.7)
 	```
 
-1. 切换到 courseinfo 目录，安装 pip 依赖
+1. 切换回本项目的根目录，安装 pip 依赖
 
 	```console
 	$ ls
-	README.md        courseinfo       excel            locale           myAPI            static           templates
-	classroom        db.sqlite3       initdb.py        manage.py        requirements.txt static_common
+	Dockerfile    README.md     ansible-u1804 courseinfo    docker-config  requirements.txt
+
 	$ pip install -r requirements.txt
 	```
 
@@ -24,8 +24,8 @@
 
 	```console
 	$ ls
-	README.md        courseinfo       excel            locale           myAPI            static           templates
-	classroom        db.sqlite3       initdb.py        manage.py        requirements.txt static_common
+	README.md        courseinfo       excel            locale           myAPI            static
+	classroom        db.sqlite3       initdb.py        manage.py        templates        static_common
 	$ python manage.py migrate
 	$ python manage.py flush --noinput
 	$ python initdb.py
@@ -55,7 +55,7 @@
 
 	```console
 	$ ls
-	Dockerfile    README.md     ansible-u1804 courseinfo    docker-config
+	Dockerfile    README.md     ansible-u1804 courseinfo    docker-config  requirements.txt
 
 	$ docker build -t auser/djangodemo .
 	Sending build context to Docker daemon  21.11MB
@@ -76,10 +76,14 @@
 	Successfully tagged auser/djangodemo:latest
 	```
 
-1. 在本地测试和运行 Docker 镜像，然后在浏览器上访问: `http://localhost`
+1. 切换到 courseinfo 目录，在本地测试和运行 Docker 镜像，然后在浏览器上访问: `http://localhost`
 
 	```console
-	$ docker run -d -p 80:80 auser/djangodemo:latest
+	$ ls
+	README.md        courseinfo       excel            locale           myAPI            static
+	classroom        db.sqlite3       initdb.py        manage.py        static_common    templates
+
+	$ docker run -d -p 80:80 --mount type=bind,source=$(pwd)/db.sqlite3,target=/home/www/ecustCourseInfo/src/courseinfo/db.sqlite3 auser/djangodemo:latest
 	221fc877103e55b6a452e8d69838232e122a357972aa08ac4421212395b892bf
 	```
 
