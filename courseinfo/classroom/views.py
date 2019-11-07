@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 
 import datetime
 from functools import reduce
@@ -14,7 +14,10 @@ def _getDateInfo(date):
     year, month = date.year, date.month
     term = '%d-%d-%d' % ((year, year+1, 1) if month > 8 else (year-1, year, 2))
     isocalendar = date.isocalendar()
-    firstMonday = Term.objects.get(name=term).firstMonday
+    try:
+        firstMonday = Term.objects.get(name=term).firstMonday
+    except:
+        raise Http404("Term does not exist")
     week = (date-firstMonday).days//7 + 1
     weekday = isocalendar[2]
     return term, week, weekday
