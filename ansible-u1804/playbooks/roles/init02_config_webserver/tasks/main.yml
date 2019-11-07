@@ -30,10 +30,11 @@
     name: "{{ image_name }}"
     tag: "{{ image_version | default('latest') }}"
 
-- name: Push DB file
+- name: Push DB file if not exist
   copy:
     src: "{{ db_localpath }}"
     dest: "{{ db_hostpath }}"
+    force: no
 
 - name: Container present
   docker_container:
