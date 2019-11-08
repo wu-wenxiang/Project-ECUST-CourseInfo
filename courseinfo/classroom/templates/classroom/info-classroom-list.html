@@ -9,13 +9,14 @@
         <div class="jumbotron"> 
             <div class="text-center" ><h3>{{campus}} -- {{building}} -- 教室列表 <h3></div> 
             {% for d in classrooms %}                 
-                <div class="col-md-4 column">
-                <a href='{{baseUrl}}/{{campus}}/{{building}}/{{d}}' class="btn btn-lg btn-danger btn-block">{{d}}</a>
+                <div class="col-md-3 column">
+                    <a href='{{baseUrl}}/{{campus}}/{{building}}/{{d}}' class="btn btn-lg btn-danger btn-block">{{d}}</a>
+                    <br/>
                 </div>
-                {% if forloop.counter|divisibleby:3 %}
-                    <br><br><br><br><!-- 被3除尽 换行 -->
-                {% endif %}
-            {% endfor %}<br>
+            {% endfor %}
+            {% for d in classrooms %}                 
+            <br/>
+            {% endfor %}
         </div>        
     </div>
 </div>
