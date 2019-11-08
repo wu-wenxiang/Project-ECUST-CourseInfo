@@ -37,7 +37,7 @@ if __name__ == "__main__":
     user.save()
 
     # Import classroom
-    classroomExcel = os.path.join(BASE_DIR, 'excel', 'classroom.xls')
+    classroomExcel = os.path.join(BASE_DIR, 'data', 'classroom.xls')
     workbookList = readWorkbook(classroomExcel)
 
     items = [Campus(name=j) for j in set(i[4] for i in workbookList)]
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     Classroom.objects.bulk_create(items, batch_size=20)
 
     # Import schedule
-    scheduleExcel = os.path.join(BASE_DIR, 'excel', 'schedule.xls')
+    scheduleExcel = os.path.join(BASE_DIR, 'data', 'schedule.xls')
     workbookList = readWorkbook(scheduleExcel, x=1)
 
     items = [Teacher(id=j[0], name=j[1]) for j in set((i[3],i[4]) for i in workbookList)]

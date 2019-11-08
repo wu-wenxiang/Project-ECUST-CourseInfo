@@ -1,0 +1,1 @@
+crontab /home/www/ecustCourseInfo/src/courseinfo/data/crontab.txt

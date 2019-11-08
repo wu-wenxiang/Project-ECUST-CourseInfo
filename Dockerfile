@@ -30,10 +30,9 @@ RUN mkdir -p /home/www/ecustCourseInfo/src
 WORKDIR /home/www/ecustCourseInfo
 COPY courseinfo /home/www/ecustCourseInfo/src/courseinfo
 COPY requirements.txt /home/www/ecustCourseInfo/src/courseinfo/requirements.txt
-RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/db.sqlite3
 RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/initdb.py
 RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/static
-RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/excel
+RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/data
 RUN pip install -r /home/www/ecustCourseInfo/src/courseinfo/requirements.txt
 RUN cd /home/www/ecustCourseInfo/src/courseinfo && python manage.py collectstatic
 

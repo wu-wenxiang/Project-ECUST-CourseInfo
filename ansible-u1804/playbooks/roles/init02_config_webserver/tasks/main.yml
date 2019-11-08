@@ -32,8 +32,8 @@
 
 - name: Push DB file if not exist
   copy:
-    src: "{{ db_localpath }}"
-    dest: "{{ db_hostpath }}"
+    src: "{{ data_external_dir }}"
+    dest: "{{ data_hostpath }}"
     force: no
 
 - name: Container present
@@ -45,5 +45,5 @@
       - "{{ host_port | default('80') }}:{{ container_port | default('80') }}"
     mounts:
       - type: bind
-        source: "{{ db_hostpath }}"
-        target: "{{ db_containerpath }}"
+        source: "{{ data_hostpath }}"
+        target: "{{ data_containerpath }}"

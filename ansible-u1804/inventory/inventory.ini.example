@@ -1,9 +1,9 @@
 [all:vars]
 image_name="maodouzi/ecust-courseinfo"
 image_version="v1.0"                    # default: latest
-db_localpath="/Users/wuwenxiang/local/github-mine/Project-ECUST-CourseInfo/courseinfo/db.sqlite3"
-db_hostpath="/root/db-ecust-courseinfo.sqlite3"
-db_containerpath="/home/www/ecustCourseInfo/src/courseinfo/db.sqlite3"
+data_external_dir="/Users/wuwenxiang/local/github-mine/Project-ECUST-CourseInfo/courseinfo/data/"
+data_hostpath="/root/data/"
+data_containerpath="/home/www/ecustCourseInfo/src/courseinfo/data/"
 # container_port="80"                   # default: 80
 # host_port="80"                        # default: 80
 

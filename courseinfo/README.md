@@ -10,7 +10,7 @@ rm -rf classroom/migrations/0*.py
 python manage.py makemigrations
 
 # build DB tables
-rm -rf db.sqlite3
+rm -rf data/db.sqlite3
 python manage.py migrate
 
 # clean DB

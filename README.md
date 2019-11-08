@@ -25,7 +25,7 @@
 	```console
 	$ ls
 	README.md        courseinfo       excel            locale           myAPI            static
-	classroom        db.sqlite3       initdb.py        manage.py        templates        static_common
+	classroom        data             initdb.py        manage.py        templates        static_common
 	$ python manage.py migrate
 	$ python manage.py flush --noinput
 	$ python initdb.py
@@ -81,9 +81,9 @@
 	```console
 	$ ls
 	README.md        courseinfo       excel            locale           myAPI            static
-	classroom        db.sqlite3       initdb.py        manage.py        static_common    templates
+	classroom        data             initdb.py        manage.py        static_common    templates
 
-	$ docker run -d -p 80:80 --mount type=bind,source=$(pwd)/db.sqlite3,target=/home/www/ecustCourseInfo/src/courseinfo/db.sqlite3 auser/djangodemo:latest
+	$ docker run -d -p 80:80 --mount type=bind,source=$(pwd)/data,target=/home/www/ecustCourseInfo/src/courseinfo/data auser/djangodemo:latest
 	221fc877103e55b6a452e8d69838232e122a357972aa08ac4421212395b892bf
 	```
 
