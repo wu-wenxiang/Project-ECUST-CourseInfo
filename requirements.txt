@@ -1,3 +1,5 @@
+gunicorn
+setuptools
 ansible>=2.9
 gevent
 django==2.2.6
@@ -7,3 +9,5 @@ Pillow
 xlrd
 xlsxwriter
 pypinyin
+sqlalchemy
+cx-Oracle
