@@ -71,10 +71,12 @@ def classroomInfo(request, campus, building):
         courses = list(courses.filter(SJBZ=0)) + list(courses.filter(SJBZ=(week%2)))
 
         # print(i, [(j, j.KS, j.JS) for j in courses])
-        idles = [j for j in range(1, 13)]
+        idles = [[j, True] for j in range(1, 13)]
         for j in courses:
             for k in range(j.KS-1, j.JS):
-                idles[k] = ''
+                idles[k] = [k+1, False]
+        idles = [['%02d' % x, y] for (x,y) in idles]
+        idles = [idles[:4], idles[4:8], idles[8:]]
         classroomList.append((i, idles))
 
     return render(request, 'classroom/info-classroom.html', context=locals())

@@ -27,7 +27,7 @@
         </div>
 
         <table class="table table-bordered table-hover">
-            <thead>
+            <!-- <thead>
             <tr>
                 <th>名称</th>
                 <th>01</th>
@@ -43,15 +43,43 @@
                 <th>11</th>
                 <th>12</th>
             </tr>
-            </thead>
+            </thead> -->
             <tbody>
             {% for class in classroomList %}
                 <tr>
-                    <td>{{ class.0.name }}</td>
-                    {% for i in class.1 %}
-                    <td><div style="background:#3ACC3A;">{{ i }}</div></td>
+                    <td></td>
+                    <td>上午</td>
+                    {% for i in class.1.0 %}
+                    {% if i.1 %}
+                    <td><div style="background:#3ACC3A;">{{ i.0 }}</div></td>
+                    {% else %}
+                    <td><div style="background:#FFFFFF;">{{ i.0 }}</div></td>
+                    {% endif %}
                     {% endfor %}
                 </tr>
+                <tr>
+                    <td>{{ class.0.name }}</td>
+                    <td>下午</td>
+                    {% for i in class.1.1 %}
+                    {% if i.1 %}
+                    <td><div style="background:#3ACC3A;">{{ i.0 }}</div></td>
+                    {% else %}
+                    <td><div style="background:#FFFFFF;">{{ i.0 }}</div></td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>晚上</td>
+                    {% for i in class.1.2 %}
+                    {% if i.1 %}
+                    <td><div style="background:#3ACC3A;">{{ i.0 }}</div></td>
+                    {% else %}
+                    <td><div style="background:#FFFFFF;">{{ i.0 }}</div></td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr><td></td></tr>
             {% endfor %}
             </tbody>
         </table>
