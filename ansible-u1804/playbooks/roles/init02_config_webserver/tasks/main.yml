@@ -26,6 +26,7 @@
 - name: Pull docker images {{ image_name }}:{{ image_version | default('latest') }}
   docker_image:
     state: present
+    force_source: yes
     source: pull
     name: "{{ image_name }}"
     tag: "{{ image_version | default('latest') }}"
