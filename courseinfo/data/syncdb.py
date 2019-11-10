@@ -48,7 +48,6 @@ class Course(Base):
 # drop_db()
 # init_db()
 
-
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -66,6 +65,9 @@ session = Session()
 # session.commit()
 
 ret = session.query(Classroom).all()
+print(ret)
+
+ret = session.query(Course).all()
 print(ret)
 # # ret = session.query(User.name).filter(User.name=='zzz').all()
 # obj = ret[0]

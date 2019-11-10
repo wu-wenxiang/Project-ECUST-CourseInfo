@@ -1,18 +1,19 @@
-FROM maodouzi/django:v2.2.6
+FROM maodouzi/django:v2.2.6-oracleclient-v19.3
 LABEL purpose='ECUST Course Search'
 
 # Build folder
-RUN mkdir -p /home/www/ecustCourseInfo/logs
-RUN mkdir -p /home/www/ecustCourseInfo/tool
-RUN mkdir -p /home/www/ecustCourseInfo/src
+RUN mkdir -p /home/www/ecustCourseInfo/logs \
+    && mkdir -p /home/www/ecustCourseInfo/tool \
+    && mkdir -p /home/www/ecustCourseInfo/src
 WORKDIR /home/www/ecustCourseInfo
 COPY courseinfo /home/www/ecustCourseInfo/src/courseinfo
 COPY requirements.txt /home/www/ecustCourseInfo/src/courseinfo/requirements.txt
-RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/initdb.py
-RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/static
-RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/data
-RUN pip install -r /home/www/ecustCourseInfo/src/courseinfo/requirements.txt
-RUN cd /home/www/ecustCourseInfo/src/courseinfo && python manage.py collectstatic
+RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/initdb.py \
+    && rm -rf /home/www/ecustCourseInfo/src/courseinfo/static \
+    && rm -rf /home/www/ecustCourseInfo/src/courseinfo/data \
+    && rm -rf /home/www/ecustCourseInfo/src/courseinfo/excel \
+    && pip install -r /home/www/ecustCourseInfo/src/courseinfo/requirements.txt \
+    && cd /home/www/ecustCourseInfo/src/courseinfo && python manage.py collectstatic
 
 # Setup nginx
 RUN rm /etc/nginx/sites-enabled/default
