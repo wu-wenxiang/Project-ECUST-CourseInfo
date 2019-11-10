@@ -9,7 +9,7 @@ class Campus(models.Model):
         return self.name
 
 class Building(models.Model):
-    campus = models.ForeignKey(Campus, on_delete=models.PROTECT)
+    campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
     name = models.CharField(verbose_name='教学楼名称', max_length=16, null=True, blank=True)
     show_schedule = models.BooleanField(verbose_name='课表显示', default=True)
     show_classroom = models.BooleanField(verbose_name='自习室显示', default=True)
@@ -27,9 +27,9 @@ class ClassroomType(models.Model):
 
 class Classroom(models.Model):
     id = models.CharField(verbose_name='教室ID', max_length=16, primary_key=True, blank=True)
-    building = models.ForeignKey(Building, on_delete=models.PROTECT)
+    building = models.ForeignKey(Building, on_delete=models.CASCADE)
     name = models.CharField(verbose_name='教室名称', max_length=16, null=True, blank=True)
-    classroomType = models.ForeignKey(ClassroomType, on_delete=models.PROTECT)
+    classroomType = models.ForeignKey(ClassroomType, on_delete=models.CASCADE)
     show_schedule = models.BooleanField(verbose_name='课表显示', default=True)
     show_classroom = models.BooleanField(verbose_name='自习室显示', default=True)
 
@@ -53,9 +53,9 @@ class Term(models.Model):
 class Course(models.Model):
     id = models.CharField(verbose_name='ID号', primary_key=True, max_length=32, blank=True)
     name = models.CharField(verbose_name='课程名称', max_length=256, null=True, blank=True)
-    teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT)
-    term = models.ForeignKey(Term, on_delete=models.PROTECT)
-    classroom = models.ForeignKey(Classroom, on_delete=models.PROTECT)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    term = models.ForeignKey(Term, on_delete=models.CASCADE)
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
     CLASS_TIME = models.CharField(verbose_name='上课时间', max_length=32, null=True, blank=True)
     START_TIME = models.CharField(verbose_name='课程安排', max_length=32, null=True, blank=True)
     showtext = models.CharField(verbose_name='备注上课安排', max_length=256, null=True, blank=True)

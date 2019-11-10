@@ -9,6 +9,7 @@ WORKDIR /home/www/ecustCourseInfo
 COPY courseinfo /home/www/ecustCourseInfo/src/courseinfo
 COPY requirements.txt /home/www/ecustCourseInfo/src/courseinfo/requirements.txt
 RUN rm -rf /home/www/ecustCourseInfo/src/courseinfo/initdb.py \
+    && rm -rf /home/www/ecustCourseInfo/src/courseinfo/syncdb.py \
     && rm -rf /home/www/ecustCourseInfo/src/courseinfo/static \
     && rm -rf /home/www/ecustCourseInfo/src/courseinfo/data \
     && rm -rf /home/www/ecustCourseInfo/src/courseinfo/excel \
