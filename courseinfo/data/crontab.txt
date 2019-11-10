@@ -1,1 +1,1 @@
-*/1 * * * * python /home/www/ecustCourseInfo/src/courseinfo/data/syncdb.py
+*/1 * * * * python /home/www/ecustCourseInfo/src/courseinfo/syncdb.py
