@@ -1,25 +1,3 @@
-# FROM python
-# LABEL author='wu-wenxiang@outlook.com'
-
-# RUN apt-get update
-# RUN apt-get install -y nginx supervisor systemd vim cron
-# RUN pip install gunicorn
-# RUN pip install setuptools
-
-# RUN pip install gevent
-# RUN pip install ansible>=2.9
-# RUN pip install django==2.2.6
-# RUN pip install django-filter
-# RUN pip install monthdelta
-# RUN pip install Pillow
-# RUN pip install xlrd
-# RUN pip install xlsxwriter
-# RUN pip install pypinyin
-# RUN pip install sqlalchemy
-# RUN pip install cx-Oracle
-
-# ENV PYTHONIOENCODING=utf-8
-
 FROM maodouzi/django:v2.2.6
 LABEL purpose='ECUST Course Search'
 
