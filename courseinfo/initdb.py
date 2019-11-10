@@ -29,6 +29,7 @@ def readWorkbook(workbookPath, x=0, index=0):
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "courseinfo.settings")
     django.setup()
+    from django.contrib.auth.models import User, Group, Permission
     from classroom.models import Campus, Building, ClassroomType, Classroom, Teacher, Term, Course
 
     user = User.objects.create_superuser('admin', 'admin@test.com', '56e1E@ab1234')
