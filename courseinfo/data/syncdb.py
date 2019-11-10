@@ -1,93 +1,73 @@
-# import datetime
+#!/usr/bin/env python
 
-# open(r'/root/log.txt', 'a').write(str(datetime.datetime.now()) + '\n')
+import os
+import django
+import datetime
+import cx_Oracle
 
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Index
-from sqlalchemy.orm import sessionmaker, relationship
-from sqlalchemy import create_engine
-
-engine = create_engine("oracle+cx_oracle://jw_user:Hdlgdx18@172.20.8.37:1521/orcl")
-Base = declarative_base()
+BASE_DIR = os.path.dirname(__file__)
 
 
-class Classroom(Base):
-    __tablename__ = 'VIEW_DJZX_CLASSROMM'
-    ID = Column(String(100), primary_key=True)
-    ROOM_NAME = Column(String(100))
-    BUILDING = Column(String(100))
-    TYPE = Column(String(100))
-    CAMPUS = Column(String(100))
+def getData(dbName):
+    db = cx_Oracle.connect("jw_user", "Hdlgdx18", "172.20.8.37:1521/orcl", encoding="UTF-8")
+    cur = db.cursor()
+    sql = "select * from %s" % dbName
+    cur.execute(sql)
+    result = cur.fetchall()
+    ret = [list(i) for i in result]
+    cur.close
+    db.close()
+    return ret
 
 
-class Course(Base):
-    __tablename__ = 'VIEW_DJZX_SCHEDULE'
-    JX0404ID = Column(String(100), primary_key=True)
-    TERMNAME = Column(String(100))          # 学期（2018-2019-1：18年-19年第一学期；2018-2019-2：18年-19年第二学期；）
-    KCMC = Column(String(100))              # 课程名称
-    TEACHER_ID = Column(String(100))        # 教师ID
-    TEACHER_NAME = Column(String(100))      # 教师姓名
-    CLASS_TIME = Column(String(100))        # 上课时间（例如030102，03是周三的课，0102是1-2节，这个字段可以不用，后面有分开的字段
-    START_TIME = Column(String(100))        # 上课安排（1-9|全，课程安排是第1周到第9周，全是每周都有，单是单数周有课，双是双数周有课；这个字段可以不用，后面有分开的字段）
-    CLASSROOM_NAME = Column(String(100))    # 教室名称
-    CLASSROOM_ID = Column(String(100), ForeignKey('VIEW_DJZX_CLASSROMM.ID'))  # 教室ID（对应教室表）
-    XQ = Column(Integer)                    # 星期（4就是周四）
-    KS = Column(Integer)                    # 开始的课节（01）
-    JS = Column(Integer)                    # 结束的课节（04）代表上午01-04节的课
-    ZC1 = Column(Integer)                   # 第几周开始课程（01）
-    ZC2 = Column(Integer)                   # 第几周结束课程（09）代表课程安排是第1周到第9周
-    SJBZ = Column(Integer)                  # 只有0、1、2三个数字，0代表每周都有课，1代表单数周有课，2代表双数周有课
-    SHOWTEXT = Column(String(100))          # 备注上课安排
+if __name__ == "__main__":
+    # classrooms = getData('VIEW_DJZX_CLASSROOM')
+    # # print(type(classrooms[0]), classrooms[0:10])
+    # schedules = getData('VIEW_DJZX_SCHEDULE')
+    # # print(type(schedules[0]), schedules[0:10])
 
-# def init_db():
-#     Base.metadata.create_all(engine)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "courseinfo.settings")
+    django.setup()
+    from classroom.models import Campus, Building, ClassroomType, Classroom, Teacher, Term, Course
 
-# def drop_db():
-#     Base.metadata.drop_all(engine)
+    # # Import classroom
+    # classroomExcel = os.path.join(BASE_DIR, 'excel', 'classroom.xls')
+    # workbookList = readWorkbook(classroomExcel)
 
-# drop_db()
-# init_db()
+    # items = [Campus(name=j) for j in set(i[4] for i in workbookList)]
+    # Campus.objects.bulk_create(items, batch_size=20)
 
-Session = sessionmaker(bind=engine)
-session = Session()
+    # items = [ClassroomType(name=j) for j in set(i[3] for i in workbookList)]
+    # ClassroomType.objects.bulk_create(items, batch_size=20)
 
-# #往team表里插入两条数据
-# session.add(Team(caption='dba'))
-# session.add(Team(caption='ddd'))
-# # session.add(Team(caption='dd2'))
-# session.commit()
+    # items = set([(i[4], i[2]) for i in workbookList])
+    # items = [Building(campus=Campus.objects.get(name=k), name=v) for (k,v) in items]
+    # Building.objects.bulk_create(items, batch_size=20)
 
-# session.add_all([
-#     User(name='zzz',team_id=1),
-#     User(name='sss',team_id=2),
-#     User(name='ccc',team_id=3),
-# ])
-# session.commit()
+    # items = {i[0]:i for i in workbookList}
+    # items = [(v, Campus.objects.get(name=v[4])) for (k,v) in items.items()]
+    # items = [(i[0], Building.objects.get(campus=i[1], name=i[0][2])) for i in items]
+    # items = [(i[0], i[1], ClassroomType.objects.get(name=i[0][3])) for i in items]
+    # items = [Classroom(id=i[0][0], name=i[0][1], building=i[1], classroomType=i[2]) for i in items]
+    # Classroom.objects.bulk_create(items, batch_size=20)
 
-ret = session.query(Classroom).all()
-print(ret)
+    # # Import schedule
+    # scheduleExcel = os.path.join(BASE_DIR, 'excel', 'schedule.xls')
+    # workbookList = readWorkbook(scheduleExcel, x=1)
 
-ret = session.query(Course).all()
-print(ret)
-# # ret = session.query(User.name).filter(User.name=='zzz').all()
-# obj = ret[0]
-# print(ret, obj, obj.name)
+    # items = [Teacher(id=j[0], name=j[1]) for j in set((i[3],i[4]) for i in workbookList)]
+    # Teacher.objects.bulk_create(items, batch_size=20)
 
-# # 等价于SELECT user.name AS FROM user INNER JOIN team ON team.tid = user.team_id
-# ret = session.query(User.name, Team.caption).join(Team).all()
-# print(ret)
+    # items = [Term(name=j, firstMonday=datetime.datetime.now()) for j in set(i[1] for i in workbookList)]
+    # Term.objects.bulk_create(items, batch_size=20)
 
-# ret = session.query(User.name, Team.caption).join(Team,isouter=True).all()
-# print(ret)
-
-# ret = session.query(User).all()
-# for obj in ret:
-#     print(obj.nid,obj.name, 
-#           obj.favor,
-#           obj.favor.tid if obj.favor else None,
-#           obj.favor.caption if obj.favor else None)
-
-# ret = session.query(Team).filter(Team.caption == 'dba').all()
-# print(ret[0].tid)
-# print(ret[0].caption)
-# print(ret[0].user)
+    # items = {i[0]:i for i in workbookList}
+    # items = [(
+    #     v, Term.objects.get(name=v[1]), Teacher.objects.get(id=v[3]),
+    #     Classroom.objects.get(id=v[8])) for (k,v) in items.items()]
+    # items = [Course(
+    #     id=i[0][0], term=i[1], name=i[0][2], teacher=i[2], CLASS_TIME=i[0][5],
+    #     START_TIME=i[0][6], classroom=i[3], XQ=i[0][9], KS=int(i[0][10]),
+    #     JS=i[0][11] or 0, ZC1=i[0][12] or 0, ZC2=i[0][13] or 0,
+    #     SJBZ=i[0][14] or 0, showtext=i[0][15] or 0) for i in items]
+    # Course.objects.bulk_create(items, batch_size=20)
