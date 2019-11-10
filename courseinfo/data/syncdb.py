@@ -33,7 +33,7 @@ def getData(sql):
     cur = db.cursor()
     cur.execute(sql)
     result = cur.fetchall()
-    ret = [list(i) for i in result]
+    ret = [[j or '' for j in i] for i in result]
     cur.close
     db.close()
     return ret
