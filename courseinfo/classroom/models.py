@@ -52,6 +52,8 @@ class Teacher(models.Model):
 class Term(models.Model):
     name = models.CharField(verbose_name='学期', primary_key=True, max_length=32, blank=True)
     firstMonday = models.DateField(verbose_name='第一周的周一日期', null=False, blank=False)
+    start = models.DateField(verbose_name='开学日期', null=False, blank=False)
+    end = models.DateField(verbose_name='结束日期', null=False, blank=False)
 
     def __str__(self):
         return self.name

@@ -74,7 +74,8 @@ def syncdb(classrooms, schedules):
 
     items = set(i[1] for i in schedules)
     items = items - set(Term.objects.all().values_list('name', flat=True))
-    items = [Term(name=i, firstMonday=datetime.datetime.now()) for i in items]
+    today = datetime.date.today()
+    items = [Term(name=i, firstMonday=today, start=today, end=today) for i in items]
     Term.objects.bulk_create(items, batch_size=20)
 
 
@@ -101,15 +102,15 @@ if __name__ == "__main__":
     from classroom.models import Term
 
     [i.delete() for i in Term.objects.all()]
-    termDict = {
-        '2018-2019-1': datetime.date(2018, 9, 1),
-        '2018-2019-2': datetime.date(2019, 2, 10),
-        '2019-2020-1': datetime.date(2019, 9, 2),
-        '2019-2020-2': datetime.date(2020, 2, 10),
-        '2020-2021-1': datetime.date(2020, 9, 1),
-        '2020-2021-2': datetime.date(2021, 2, 10),
-    }
-    items = [Term(name=k, firstMonday=v) for (k, v) in termDict.items()]
+    terms = [
+        ('2018-2019-1', datetime.date(2018, 9, 1), datetime.date(2018, 9, 1), datetime.date(2019, 1, 15)),
+        ('2018-2019-2', datetime.date(2019, 2, 10), datetime.date(2019, 2, 10), datetime.date(2019, 6, 30)),
+        ('2019-2020-1', datetime.date(2019, 9, 2), datetime.date(2019, 9, 2), datetime.date(2020, 1, 15)),
+        ('2019-2020-2', datetime.date(2020, 2, 10), datetime.date(2020, 2, 10), datetime.date(2020, 6, 30)),
+        ('2020-2021-1', datetime.date(2020, 9, 1), datetime.date(2020, 9, 1), datetime.date(2021, 1, 15)),
+        ('2020-2021-2', datetime.date(2021, 2, 10), datetime.date(2021, 2, 10), datetime.date(2021, 6, 30))
+    ]
+    items = [Term(name=i[0], firstMonday=i[1], start=i[2], end=i[3]) for i in terms]
     Term.objects.bulk_create(items, batch_size=20)
 
     syncdb(classrooms, schedules)

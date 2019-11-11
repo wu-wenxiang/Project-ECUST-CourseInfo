@@ -36,7 +36,7 @@ class TeacherAdmin(admin.ModelAdmin):
 
 @admin.register(Term)
 class TermAdmin(admin.ModelAdmin):
-    list_display = ('name', 'firstMonday')
+    list_display = ('name', 'firstMonday', 'start', 'end')
 
 
 @admin.register(Course)
