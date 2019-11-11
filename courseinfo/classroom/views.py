@@ -95,6 +95,7 @@ def courseBuilding(request, campus):
         campus__show_schedule=True,
         show_schedule=True
     ).values_list('name', flat=True)
+    buildings = pinyinSort(buildings)
     return render(request, 'classroom/info-building.html', context=locals())
 
 def courseClassroom(request, campus, building):
