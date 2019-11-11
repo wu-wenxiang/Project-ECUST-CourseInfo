@@ -35,12 +35,14 @@
   copy:
     src: "{{ data_external_dir }}"
     dest: "{{ data_hostpath }}"
+    # force: yes
     force: no
 
 - name: Container present
   docker_container:
     name: "{{ container_name }}"
     state: started
+    restart: yes
     image: "{{ image_name }}:{{ image_version | default('latest') }}"
     ports:
       - "{{ host_port | default('80') }}:{{ container_port | default('80') }}"
