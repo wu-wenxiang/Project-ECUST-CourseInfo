@@ -90,9 +90,13 @@ def syncdb(classrooms, schedules):
 
 
     [i.delete() for i in Course.objects.all()]
+    items = [i for i in schedules if i[5].isdigit()]
+    for i in range(len(items)):
+        if items[i][12] and not items[i][13]:
+            items[i][13] = items[i][12]
     items = [(
         i, Term.objects.get(name=i[1]), Teacher.objects.get(id=i[3]),
-        Classroom.objects.get(id=i[8])) for i in schedules]
+        Classroom.objects.get(id=i[8])) for i in items]
     items = [Course(
         courseid=i[0][0], term=i[1], name=i[0][2], teacher=i[2], CLASS_TIME=i[0][5],
         START_TIME=i[0][6], classroom=i[3], XQ=i[0][9], KS=i[0][10] or 0,
