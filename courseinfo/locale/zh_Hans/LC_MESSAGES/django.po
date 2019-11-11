@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-09 12:12+0800\n"
+"POT-Creation-Date: 2019-11-11 17:33+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr "自习室查询"
 #: classroom/templates/classroom/info-course-details.html:6
 #: classroom/templates/classroom/info-course.html:7
 #: classroom/templates/classroom/search-coursename.html:6
-#: classroom/templates/classroom/search-teachername.html:6
+#: classroom/templates/classroom/search-teachername.html:6 templates/404.html:6
 msgid "Return"
 msgstr "返回"
 
