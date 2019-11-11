@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Campus(models.Model):
     name = models.CharField(verbose_name='校区', primary_key=True, max_length=16, blank=True)
     show_schedule = models.BooleanField(verbose_name='课表显示', default=True)
@@ -7,6 +8,7 @@ class Campus(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Building(models.Model):
     campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
@@ -17,6 +19,7 @@ class Building(models.Model):
     def __str__(self):
         return '%s: %s' % (self.campus, self.name)
 
+
 class ClassroomType(models.Model):
     name = models.CharField(verbose_name='教室类型', primary_key=True, max_length=16, blank=True)
     show_schedule = models.BooleanField(verbose_name='课表显示', default=True)
@@ -24,6 +27,7 @@ class ClassroomType(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Classroom(models.Model):
     id = models.CharField(verbose_name='教室ID', max_length=16, primary_key=True, blank=True)
@@ -36,12 +40,14 @@ class Classroom(models.Model):
     def __str__(self):
         return self.name
 
+
 class Teacher(models.Model):
     id = models.CharField(verbose_name='教师ID', max_length=32, primary_key=True, blank=True)
     name = models.CharField(verbose_name='教师姓名', max_length=32, null=True, blank=True)  
 
     def __str__(self):
         return self.name
+
 
 class Term(models.Model):
     name = models.CharField(verbose_name='学期', primary_key=True, max_length=32, blank=True)
@@ -50,8 +56,10 @@ class Term(models.Model):
     def __str__(self):
         return self.name
 
+
 class Course(models.Model):
-    id = models.CharField(verbose_name='ID号', primary_key=True, max_length=32, blank=True)
+    id = models.IntegerField(primary_key=True, auto_created=True)
+    courseid = models.CharField(verbose_name='课程ID', max_length=32, null=True, blank=True)
     name = models.CharField(verbose_name='课程名称', max_length=256, null=True, blank=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
