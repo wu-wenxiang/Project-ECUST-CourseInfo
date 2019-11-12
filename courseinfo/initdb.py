@@ -3,7 +3,6 @@
 import os
 import django
 import datetime
-import xlrd
 from data.syncdb import syncdb, readWorkbook
 
 BASE_DIR = os.path.dirname(__file__)
