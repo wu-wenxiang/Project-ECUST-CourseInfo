@@ -15,6 +15,7 @@
       - python-pip
       - vim
       - telnet
+      - policycoreutils
     state: present
 
 - name: Update pip
