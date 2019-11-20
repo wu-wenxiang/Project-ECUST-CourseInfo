@@ -2,9 +2,7 @@
 {% block body %}
 {% load i18n %}
 <div class="container theme-showcase" role="main">
-    <div class="col-md-12 column">
-        <a href='/' class="btn btn-lg btn-success btn-block">{% trans 'Return' %}</a>
-    </div><br><br><br>
+    <br>
     <div class="jumbotron">   
     <form method="get" action="">
         <div class="col-md-12 column">
@@ -58,5 +56,8 @@
             </tbody>
         </table>
     </div>
+    <div class="col-md-12 column">
+        <a href='/' class="btn btn-lg btn-success btn-block">{% trans 'Return' %}</a>
+    </div><br>
 </div>
 {% endblock %}

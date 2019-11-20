@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-
+import time
 import datetime
 from functools import reduce
 
@@ -44,8 +44,10 @@ def classroomInfo(request, campus, building):
     date = cleanData.get('date', '').strip()
     try:
         date = datetime.date.fromisoformat(date)
-    except:
+    except Exception as ex:
+        print('err: %s' % ex)
         date = datetime.date.today()
+
     term, week, weekday = _getDateInfo(date)
 
     classrooms = Classroom.objects.filter(
