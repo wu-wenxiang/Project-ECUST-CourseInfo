@@ -16,6 +16,8 @@
       - vim
       - telnet
       - policycoreutils
+      - default-jre
+      - apache2-utils
     state: present
 
 - name: Update pip
