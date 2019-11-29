@@ -43,3 +43,23 @@
     state: restarted
     daemon_reload: yes
     name: sshd
+
+- name: pip install
+  pip:
+    name:
+      - "ansible=={{ ansible_ver }}"
+      - packaging
+      - passlib
+      - htpasswd
+      - pyopenssl
+
+- name: "Mkdir ansible config"
+  file:
+    path: "/etc/ansible"
+    state: "directory"
+    mode: "0755"
+
+- name: Push ansible config file to deploy node
+  copy:
+    src: "ansible.cfg"
+    dest: "/etc/ansible/ansible.cfg"

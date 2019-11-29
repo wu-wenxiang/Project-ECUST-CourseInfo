@@ -1,0 +1,5 @@
+[all:vars]
+bastion_data_device="/dev/vdb"
+
+[webserver]
+alibastion
