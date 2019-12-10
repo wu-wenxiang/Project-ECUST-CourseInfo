@@ -54,6 +54,12 @@
       - passlib
       - htpasswd
       - pyopenssl
+      - msrestazure
+
+- name: pip install next
+  pip:
+    name:
+      - ansible[azure]
 
 - name: "Mkdir ansible config"
   file:
