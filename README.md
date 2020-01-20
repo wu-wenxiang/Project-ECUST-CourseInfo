@@ -51,13 +51,13 @@
 	...
 	```
 
-1. 切换回本项目的根目录，确认目录中包含 Dockerfile 文件，**注意：`auser/djangodemo` 中的 auser 是你 dockerhub 的账户名**
+1. 切换回本项目的根目录，确认目录中包含 Dockerfile 文件，**注意：`maodouzi/ecust-courseinfo:v1.0` 中的 maodouzi 是你 dockerhub 的账户名**
 
 	```console
 	$ ls
 	Dockerfile    README.md     ansible-u1804 courseinfo    docker-config  requirements.txt
 
-	$ docker build -t auser/djangodemo .
+	$ docker build -t maodouzi/ecust-courseinfo:v1.0 .
 	Sending build context to Docker daemon  21.11MB
 	Step 1/20 : FROM maodouzi/django:v2.2.6
 	 ---> 0e1a814c3248
@@ -73,7 +73,7 @@
 	Removing intermediate container 25bedf25c059
 	 ---> 52c793bdcd5a
 	Successfully built 52c793bdcd5a
-	Successfully tagged auser/djangodemo:latest
+	Successfully tagged maodouzi/ecust-courseinfo:v1.0
 	```
 
 1. 切换到 courseinfo 目录，在本地测试和运行 Docker 镜像，然后在浏览器上访问: `http://localhost`
@@ -83,7 +83,7 @@
 	README.md        courseinfo       excel            locale           myAPI            static
 	classroom        data             initdb.py        manage.py        static_common    templates
 
-	$ docker run -d -p 80:80 --mount type=bind,source=$(pwd)/data,target=/home/www/ecustCourseInfo/src/courseinfo/data auser/djangodemo:latest
+	$ docker run -d -p 80:80 --mount type=bind,source=$(pwd)/data,target=/home/www/ecustCourseInfo/src/courseinfo/data maodouzi/ecust-courseinfo:v1.0
 	221fc877103e55b6a452e8d69838232e122a357972aa08ac4421212395b892bf
 	```
 
@@ -97,7 +97,7 @@
 
 	```bash
 	docker login
-	docker push auser/djangodemo:latest
+	docker push maodouzi/ecust-courseinfo:v1.0
 	```
 
 ## 部署到远端站点
@@ -164,7 +164,7 @@
 
 	$ cat inventory/inventory.ini
 	[all:vars]
-	image_name="auser/djangodemo"
+	image_name="maodouzi/ecust-courseinfo:v1.0"
 
 	[webserver]
 	course
