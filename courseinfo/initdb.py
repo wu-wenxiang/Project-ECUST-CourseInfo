@@ -22,8 +22,8 @@ if __name__ == "__main__":
     terms = [
         ('2018-2019-1', datetime.date(2018, 9, 1), datetime.date(2018, 9, 1), datetime.date(2019, 1, 15)),
         ('2018-2019-2', datetime.date(2019, 2, 10), datetime.date(2019, 2, 10), datetime.date(2019, 6, 30)),
-        ('2019-2020-1', datetime.date(2019, 9, 2), datetime.date(2019, 9, 2), datetime.date(2020, 1, 15)),
-        ('2019-2020-2', datetime.date(2020, 2, 10), datetime.date(2020, 2, 10), datetime.date(2020, 6, 30)),
+        ('2019-2020-1', datetime.date(2019, 9, 2), datetime.date(2019, 9, 2), datetime.date(2020, 1, 25)),
+        ('2019-2020-2', datetime.date(2020, 1, 26), datetime.date(2020, 2, 10), datetime.date(2020, 6, 30)),
         ('2020-2021-1', datetime.date(2020, 9, 1), datetime.date(2020, 9, 1), datetime.date(2021, 1, 15)),
         ('2020-2021-2', datetime.date(2021, 2, 10), datetime.date(2021, 2, 10), datetime.date(2021, 6, 30))
     ]
