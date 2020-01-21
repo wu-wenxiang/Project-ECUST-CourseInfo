@@ -7,7 +7,7 @@
         <div class="jumbotron"> 
             <div>
                 {% if syncingdb %}
-                <span style="color:#f00;display:inline">数据库同步中，请稍等... </span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="color:#f00;display:inline">数据更新中，请稍等... </span> &nbsp;&nbsp;&nbsp;&nbsp;
                 {% else %}
                 <form action="/syncdb/" method="POST" style="display:inline">
                     {% csrf_token %}   

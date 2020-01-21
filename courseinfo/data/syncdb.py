@@ -105,7 +105,7 @@ def syncdb(classrooms, schedules):
     Course.objects.bulk_create(items, batch_size=20)
 
 
-if __name__ == "__main__":
+def main():
     # import os
     # BASE_DIR = os.path.dirname(__file__)
     # classroomExcel = os.path.join(BASE_DIR, 'excel', 'classroom.xls')
@@ -118,3 +118,7 @@ if __name__ == "__main__":
     schedules = getData("select * from VIEW_DJZX_SCHEDULE where TERMNAME='2019-2020-1'")
     # print(type(schedules[0]), schedules[0:10])
     syncdb(classrooms, schedules)
+
+
+if __name__ == "__main__":
+    main()
