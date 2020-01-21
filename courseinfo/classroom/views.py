@@ -1,14 +1,12 @@
 from django.shortcuts import render
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-import time
+from django.http import Http404, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 import os
 import datetime
-from functools import reduce
 
 from courseinfo.settings import BASE_DIR
-from .models import Campus, Building, ClassroomType, Classroom, Teacher, Term, Course
-from myAPI.pageAPI import djangoPage, PAGE_NUM, toInt
-from myAPI.dateAPI import get_year_weekday, get_weekday, get_date
+from .models import Campus, Building, Classroom, Term, Course
+from myAPI.pageAPI import djangoPage, PAGE_NUM
 from myAPI.listAPI import pinyinSort
 
 
@@ -51,7 +49,7 @@ def classroomInfo(request, campus, building):
     try:
         date = datetime.date.fromisoformat(date)
     except Exception as ex:
-        print('err: %s' % ex)
+        # print('err: %s' % ex)
         date = datetime.date.today()
 
     term, week, weekday = _getDateInfo(date)
@@ -210,17 +208,21 @@ def teacherNameSearch(request, page):
     return render(request, 'classroom/search-teachername.html', context=locals())
 
 
+@login_required
 def syncdb(request):
     '''
     1. 文件不存在：显示"同步数据库"按钮，点击按钮，创建一个文件
     2. 文件存在：显示"数据库同步中，请稍等..."文本
     '''
+    if not request.user.is_superuser:
+        return HttpResponseRedirect('/')
 
     filepath = os.path.join(BASE_DIR, 'data', 'syncdbstatus.txt')
     change_list_template = "classroom/syncdb.html"
-    syncingdb = os.path.exists(filepath)
 
-    if not syncingdb:
-        with open(self.filepath, 'w+') as fp:
+    if request.method == 'POST' and not os.path.exists(filepath):
+        with open(filepath, 'w+') as fp:
             fp.write('0')
+
+    syncingdb = os.path.exists(filepath)
     return render(request, 'classroom/syncdb.html', context=locals())

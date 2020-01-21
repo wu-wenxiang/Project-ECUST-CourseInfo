@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    
+
     path('classroominfo/', views.campusInfo, name='campusInfo'),
     path('classroominfo/<str:campus>/', views.buildingInfo),
     path('classroominfo/<str:campus>/<str:building>/', views.classroomInfo),
@@ -17,4 +17,6 @@ urlpatterns = [
     path('courseinfo/classroom/<str:campus>/<str:building>/', views.courseClassroom),
     path('courseinfo/classroom/<str:campus>/<str:building>/<str:classroom>/', views.classroomDetails),
     path('courseinfo/<str:id>/', views.courseDetails),
+
+    path('syncdb/', views.syncdb),
 ]
