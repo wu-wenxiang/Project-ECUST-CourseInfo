@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 import time
+import os
 import datetime
 from functools import reduce
 
+from courseinfo.settings import BASE_DIR
 from .models import Campus, Building, ClassroomType, Classroom, Teacher, Term, Course
 from myAPI.pageAPI import djangoPage, PAGE_NUM, toInt
 from myAPI.dateAPI import get_year_weekday, get_weekday, get_date
@@ -21,13 +23,16 @@ def _getDateInfo(date):
     weekday = isocalendar[2]
     return term.name, week, weekday
 
+
 def index(request):
     return render(request, 'classroom/index.html', context=locals())
+
 
 def campusInfo(request):
     baseUrl = '/classroominfo'
     campuses = Campus.objects.filter(show_classroom=True).values_list('name', flat=True)
     return render(request, 'classroom/info-campus.html', context=locals())
+
 
 def buildingInfo(request, campus):
     baseUrl = '/classroominfo'
@@ -38,6 +43,7 @@ def buildingInfo(request, campus):
     ).values_list('name', flat=True)
     buildings = pinyinSort(buildings)
     return render(request, 'classroom/info-building.html', context=locals())
+
 
 def classroomInfo(request, campus, building):
     cleanData = request.GET.dict()
@@ -64,8 +70,8 @@ def classroomInfo(request, campus, building):
         courses = Course.objects.filter(
             classroom__id=i.id,
             term=term,
-            ZC1__lte = week,
-            ZC2__gte = week,
+            ZC1__lte=week,
+            ZC2__gte=week,
             XQ=weekday,
         )
         # print(i, i.id, list(courses))
@@ -82,13 +88,16 @@ def classroomInfo(request, campus, building):
 
     return render(request, 'classroom/info-classroom.html', context=locals())
 
+
 def courseInfo(request):
     return render(request, 'classroom/info-course.html', context=locals())
+
 
 def courseCampus(request):
     baseUrl = '/courseinfo/classroom'
     campuses = Campus.objects.filter(show_schedule=True).values_list('name', flat=True)
     return render(request, 'classroom/info-campus.html', context=locals())
+
 
 def courseBuilding(request, campus):
     baseUrl = '/courseinfo/classroom'
@@ -99,6 +108,7 @@ def courseBuilding(request, campus):
     ).values_list('name', flat=True)
     buildings = pinyinSort(buildings)
     return render(request, 'classroom/info-building.html', context=locals())
+
 
 def courseClassroom(request, campus, building):
     baseUrl = '/courseinfo/classroom'
@@ -111,6 +121,7 @@ def courseClassroom(request, campus, building):
         show_schedule=True,
     ).order_by("name").values_list('name', flat=True)
     return render(request, 'classroom/info-classroom-list.html', context=locals())
+
 
 def classroomDetails(request, campus, building, classroom): 
     cleanData = request.GET.dict()
@@ -148,13 +159,13 @@ def classroomDetails(request, campus, building, classroom):
     mylist = []
     for n in range(0,12):
         mylist.append(['','','',''])
-    
+
     for model in courses:  
         ks = model.KS
         js = model.JS              
         for n in range(ks-1,js):
             mylist[n] = [model.id, model.name, model.teacher, model.classroom]
-    
+
     mlist = []
     k = ['j', 'id', 'KCMC', 'TEACHER_NAME', 'CLASSROOM_ID']
     for (index,m) in enumerate(mylist):
@@ -163,9 +174,11 @@ def classroomDetails(request, campus, building, classroom):
         mlist.append(d)
     return render(request, 'classroom/info-classroom-details.html', context=locals())
 
+
 def courseDetails(request, id):
     courses = Course.objects.filter(id=id)
     return render(request, 'classroom/info-course-details.html', context=locals())
+
 
 def courseNameSearch(request, page):
     cleanData = request.GET.dict()
@@ -181,6 +194,7 @@ def courseNameSearch(request, page):
     offset = PAGE_NUM * (page - 1)
     return render(request, 'classroom/search-coursename.html', context=locals())
 
+
 def teacherNameSearch(request, page):
     cleanData = request.GET.dict()
     teachername = cleanData.get('teachername', '').strip()
@@ -194,3 +208,19 @@ def teacherNameSearch(request, page):
     data_list, pageList, num_pages, page = djangoPage(courses, page, PAGE_NUM)
     offset = PAGE_NUM * (page - 1)
     return render(request, 'classroom/search-teachername.html', context=locals())
+
+
+def syncdb(request):
+    '''
+    1. 文件不存在：显示"同步数据库"按钮，点击按钮，创建一个文件
+    2. 文件存在：显示"数据库同步中，请稍等..."文本
+    '''
+
+    filepath = os.path.join(BASE_DIR, 'data', 'syncdbstatus.txt')
+    change_list_template = "classroom/syncdb.html"
+    syncingdb = os.path.exists(filepath)
+
+    if not syncingdb:
+        with open(self.filepath, 'w+') as fp:
+            fp.write('0')
+    return render(request, 'classroom/syncdb.html', context=locals())
