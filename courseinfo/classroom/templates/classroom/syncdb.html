@@ -11,7 +11,7 @@
                 {% else %}
                 <form action="/syncdb/" method="POST" style="display:inline">
                     {% csrf_token %}   
-                     <button type="submit">同步数据库</button>
+                     <button class="btn btn-lg btn-danger btn-block" type="submit">同步数据库</button>
                 </form>
                 {% endif %}
             </div>
